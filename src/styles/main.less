@@ -1,1 +1,87 @@
-@import "element-plus/dist/index.css";
+@import 'element-plus/dist/index.css';
+@import './variable.css';
+
+html {
+  font-size: 12px;
+}
+
+body {
+  background: #f5f5f5;
+  margin: 0;
+  -webkit-font-smoothing: unset !important;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+    Hiragino Sans GB, Microsoft YaHei, Arial !important;
+}
+
+a {
+  text-decoration: none;
+  color: var(--el-color-primary);
+  transition: 0.4s;
+}
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  color: var(--font-color1);
+}
+
+p {
+  color: var(--font-color3);
+  margin: 0;
+  line-height: 22px;
+}
+
+.el-button {
+  height: 36px;
+  &.actmo {
+    height: 32px;
+    border-radius: 2px;
+  }
+}
+
+.el-message {
+  padding: 10px 16px;
+  border-radius: 2px;
+}
+
+#root-layout {
+  overflow: auto;
+  #header-layout {
+    height: var(--header-height);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0px;
+    background: #fff;
+    z-index: 2000;
+  }
+  #main-layout {
+    max-width: 1200px;
+    margin: var(--header-height) auto 0px auto;
+    padding: 20px 0;
+  }
+}
+
+.fx {
+  display: flex;
+  align-items: center;
+}
+.fx-c {
+  .fx();
+  justify-content: center;
+}
+.fx-b {
+  .fx();
+  justify-content: space-between;
+}

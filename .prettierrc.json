@@ -1,0 +1,16 @@
+{
+  "singleQuote": true,
+  "semi": false,
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "requirePragma": false,
+  "overrides": [
+    {
+      "files": ["*.json"],
+      "options": {
+        "parser": "json-stringify"
+      }
+    }
+  ]
+}
