@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import { articleStore, loginStore } from '@/stores'
+import { articleStore, userStore } from '@/stores'
 import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
 import MkRender from '@/components/mk-render/index.vue'
 const route = useRoute()
 const store = articleStore()
-const lostore = loginStore()
+const ustore = userStore()
 const article = ref<ArticleType | null>(null)
 const directs = ref([])
 
 const toEdit = () => {
   window.open('/operate/' + article.value._id)
 }
-
+const toUser = () => {
+  window.open('/user/' + article.value.user._id)
+}
 const toPraiseOrStart = (type: 1 | 2) => {
   let { _id, created_by } = article.value
   let form = {
     target_id: _id,
-    target_type: 1,
     target_user: created_by,
     type,
   }
@@ -82,7 +83,7 @@ onMounted(() => {
             </span>
             <a
               className="edit"
-              v-if="lostore.user_info?._id == article.user._id"
+              v-if="ustore.user_info?._id == article.user._id"
               @click="toEdit"
               >编辑</a
             >
@@ -92,7 +93,7 @@ onMounted(() => {
       </div>
       <div class="other-panel">
         <div class="user-pan pan" v-if="article">
-          <div class="fx">
+          <div class="fx" @click="toUser">
             <el-avatar :size="48">
               <img src="@/assets/avatar.png" />
             </el-avatar>
@@ -111,13 +112,13 @@ onMounted(() => {
               <span class="icarea">
                 <span class="iconfont icon-zan2 izan" />
               </span>
-              <span>获得点赞 &nbsp;{{ article.praises }}</span>
+              <span>获得点赞 &nbsp;{{ article.user.good_num }}</span>
             </div>
             <div class="row fx">
               <span class="icarea">
                 <span class="iconfont icon-view2" />
               </span>
-              <span>文章被阅读 &nbsp;{{ article.page_view }}</span>
+              <span>文章被阅读 &nbsp;{{ article.user.read_num }}</span>
             </div>
           </div>
         </div>

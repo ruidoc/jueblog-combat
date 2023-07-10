@@ -33,10 +33,10 @@
 import { ref } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElMessage, ElDialog } from 'element-plus'
-import { loginStore } from '@/stores'
+import { userStore } from '@/stores'
 // 禁用点击遮罩层关闭弹框
 ElDialog.props.closeOnClickModal.default = false
-const lostore = loginStore()
+const ustore = userStore()
 const visible = ref(false)
 const loading = ref(false)
 const form = ref({
@@ -49,14 +49,14 @@ const toLogin = () => {
     return ElMessage.error('帐号密码不为空')
   }
   loading.value = true
-  lostore.login(form.value, bool => {
+  ustore.login(form.value, bool => {
     loading.value = false
     visible.value = false
     console.log(bool)
   })
 }
 const toClose = (close: Function) => {
-  lostore.need_login = false
+  ustore.need_login = false
   close()
 }
 defineExpose({

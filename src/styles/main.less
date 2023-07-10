@@ -77,6 +77,10 @@ p {
   display: flex;
   align-items: center;
 }
+.fxt {
+  display: flex;
+  align-items: flex-start;
+}
 .fx-c {
   .fx();
   justify-content: center;
@@ -84,4 +88,34 @@ p {
 .fx-b {
   .fx();
   justify-content: space-between;
+}
+
+.cus-tabs-header {
+  border-bottom: 1px solid #eee;
+  padding: 12px 12px;
+  ul {
+    display: flex;
+    align-items: center;
+    li {
+      font-size: 16px;
+      padding: 0 20px;
+      cursor: pointer;
+      color: var(--font-color3);
+      position: relative;
+      &.active {
+        color: var(--font-color1);
+        font-weight: 500;
+        &::after {
+          content: '';
+          position: absolute;
+          left: 38%;
+          right: 38%;
+          bottom: -12px;
+          height: 3px;
+          background: var(--el-color-primary);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
 }

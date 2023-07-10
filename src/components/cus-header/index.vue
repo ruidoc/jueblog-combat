@@ -27,7 +27,7 @@
           <el-button text>草稿箱</el-button>
         </div>
       </el-popover>
-      <template v-if="lostore.user_info">
+      <template v-if="ustore.user_info">
         <Message></Message>
         <UserAva></UserAva>
       </template>
@@ -44,10 +44,10 @@ import Search from './search.vue'
 import Message from './message.vue'
 import UserAva from './user.vue'
 import { CaretBottom } from '@element-plus/icons-vue'
-import { loginStore } from '@/stores'
-const lostore = loginStore()
+import { userStore } from '@/stores'
+const ustore = userStore()
 const showLogin = () => {
-  lostore.showLogin()
+  ustore.showLogin()
 }
 const toHome = () => {
   location.href = '/'

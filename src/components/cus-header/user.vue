@@ -20,7 +20,7 @@
         <el-avatar :size="48">
           <img src="@/assets/avatar.png" />
         </el-avatar>
-        <router-link to="/user">
+        <router-link :to="'/user/' + user_info._id">
           <div class="rcolum">
             <div class="name">{{ user_info.username }}</div>
             <div class="jue">
@@ -50,16 +50,27 @@
         <el-button text>用户设置</el-button>
       </div>
       <el-divider />
-      <el-button text style="width: 100%">退出登录</el-button>
+      <el-button text style="width: 100%" @click="toLogout">退出登录</el-button>
     </el-popover>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { messageStore, loginStore } from '@/stores'
-const { user_info } = loginStore()
+import { userStore } from '@/stores'
+import { ElMessageBox } from 'element-plus'
+const { user_info } = userStore()
+const toLogout = () => {
+  ElMessageBox.confirm('确认退出登录？', '操作提醒', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user_info')
+    location.href = '/'
+  })
+}
 </script>
 
 <style lang="less">

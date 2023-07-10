@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/shortmsg',
     name: 'shortmsg',
-    component: () => import('@/views/shortmsg/index.vue'),
+    component: () => import('@/views/short-msg/index.vue'),
   },
   {
     path: '/search',
@@ -25,6 +25,11 @@ const routes = [
     path: '/operate/:tag',
     name: 'operate',
     component: () => import('@/views/article/operate.vue'),
+  },
+  {
+    path: '/user/:id',
+    name: 'user',
+    component: () => import('@/views/user/index.vue'),
   },
 ]
 

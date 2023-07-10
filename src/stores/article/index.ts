@@ -13,16 +13,20 @@ const artiStore = defineStore('article', {
   }),
   actions: {
     // 文章列表
-    async getArticles(params: Record<string, string> = {}) {
+    async getArticles(
+      params: Record<string, string> = {},
+      fun?: (data: any) => void
+    ) {
       try {
         if (params.category == 'all') {
           params.category = null
         }
         let res: any = await request.get('/arts/lists', { params })
-        if (res) {
+        if (res && !fun) {
           this.articles = res.data
           this.meta = res.meta
         }
+        if (fun) fun(res)
       } catch (error) {
         console.log(error)
       }
@@ -48,6 +52,7 @@ const artiStore = defineStore('article', {
     // 操作点赞/收藏
     async togglePraise(data: any, fun: (bool: boolean) => void) {
       try {
+        data.target_type = 1
         let res: any = await request.post('/praises/toggle', data)
         fun(res.action == 'create' ? true : false)
       } catch (error) {

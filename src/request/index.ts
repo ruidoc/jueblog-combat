@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from 'axios'
 import { ElMessage } from 'element-plus'
-import { loginStore } from '@/stores'
+import { userStore } from '@/stores'
 
 const instance: AxiosInstance = axios.create({
   // baseURL: 'https://blog-fun-blog-server-syqqqghajr.cn-hangzhou.fcapp.run',
@@ -31,14 +31,14 @@ instance.interceptors.response.use(
       let response = error.response
       if (response.status === 401) {
         // ElMessage.error('登录已过期，请重新登录')
-        loginStore().showLogin()
+        userStore().showLogin()
         localStorage.removeItem('token')
         // window.location.href = '/login'
       } else {
-        ElMessage.error(response.message)
+        ElMessage.error(response.data.message)
       }
     } else {
-      ElMessage.error(error.message)
+      ElMessage.error(error.message || '服务器错误')
     }
     return Promise.reject(error)
   }

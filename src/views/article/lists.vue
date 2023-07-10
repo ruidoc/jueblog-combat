@@ -2,6 +2,9 @@
 import { articleStore } from '@/stores'
 import { getTimer } from '@/utils'
 const store = articleStore()
+const props = defineProps<{
+  articles: any[]
+}>()
 const toDetail = (item: any) => {
   window.open('/article/' + item._id)
 }
@@ -11,7 +14,7 @@ const toDetail = (item: any) => {
   <div class="article-lists">
     <div
       class="arts-item"
-      v-for="item in store.articles"
+      v-for="item in props.articles"
       @click="toDetail(item)"
     >
       <div class="art-meta">

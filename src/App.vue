@@ -3,12 +3,12 @@ import { computed, onMounted, ref, watch } from 'vue'
 import CusHeader from '@/components/cus-header/index.vue'
 import CusLogin from '@/components/cus-login/index.vue'
 import { RouterView, useRoute } from 'vue-router'
-import { loginStore } from '@/stores'
+import { userStore } from '@/stores'
 
 const route = useRoute()
-const lostore = loginStore()
+const ustore = userStore()
 const L = ref(null)
-const need_login = computed(() => lostore.need_login)
+const need_login = computed(() => ustore.need_login)
 watch(need_login, val => {
   if (val) {
     L.value.visible = true
@@ -17,7 +17,7 @@ watch(need_login, val => {
 onMounted(() => {
   let uinfo = localStorage.user_info
   if (uinfo) {
-    lostore.setUserInfo(JSON.parse(uinfo))
+    ustore.setUserInfo(JSON.parse(uinfo))
   }
 })
 </script>
