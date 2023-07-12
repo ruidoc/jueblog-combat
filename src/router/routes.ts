@@ -12,9 +12,9 @@ const routes = [
     component: () => import('@/views/short-msg/index.vue'),
   },
   {
-    path: '/search',
-    name: 'search',
-    component: () => import('@/views/search/index.vue'),
+    path: '/messages',
+    name: 'messages',
+    component: () => import('@/views/messages/index.vue'),
   },
   {
     path: '/article/:id',

@@ -64,6 +64,7 @@ p {
     right: 0;
     top: 0px;
     background: #fff;
+    box-shadow: 0 2px 8px #f2f3f5;
     z-index: 2000;
   }
   #main-layout {
@@ -94,8 +95,7 @@ p {
   border-bottom: 1px solid #eee;
   padding: 12px 12px;
   ul {
-    display: flex;
-    align-items: center;
+    .fxt();
     li {
       font-size: 16px;
       padding: 0 20px;
@@ -117,5 +117,16 @@ p {
         }
       }
     }
+  }
+}
+
+.hover {
+  color: var(--font-color2);
+  cursor: pointer;
+  &:hover {
+    color: var(--el-color-primary);
+  }
+  &.active {
+    color: var(--el-color-primary);
   }
 }

@@ -13,9 +13,39 @@ const mesgStore = defineStore('message', {
   actions: {
     async getMessage() {
       try {
-        let res: any = await request.get('/messages/lists')
+        let res: any = await request.get('/messages/preview')
         if (res) {
           this.msgInfo = res
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getComment(fun: (res: any) => void) {
+      try {
+        let res: any = await request.get('/comments/mylist')
+        if (res) {
+          fun(res)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getPraises(fun: (res: any) => void) {
+      try {
+        let res: any = await request.get('/praises/mylist')
+        if (res) {
+          fun(res)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getFollows(fun: (res: any) => void) {
+      try {
+        let res: any = await request.get('/follows/lists')
+        if (res) {
+          fun(res)
         }
       } catch (error) {
         console.log(error)

@@ -15,7 +15,7 @@ interface ArticleType {
   tags: string[]
   title: string
   updated_at: string
-  user: UserInfoType
+  user: UserType
 }
 
 interface CategoryType {

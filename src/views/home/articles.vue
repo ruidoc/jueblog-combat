@@ -2,16 +2,16 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Articles from '@/views/article/lists.vue'
-import { articleStore } from '@/stores'
 
 const route = useRoute()
-const store = articleStore()
-
+const orderby = ref('hot')
+const props = defineProps<{
+  articles: any[]
+}>()
 const emit = defineEmits<{
   (e: 'onFilter', json: Record<string, string>): void
 }>()
 
-const orderby = ref('hot')
 const onFilter = (e: MouseEvent) => {
   let dom: any = e.target
   orderby.value = dom.dataset.val
@@ -31,7 +31,7 @@ onMounted(() => {
         <li data-val="new" :class="{ active: orderby == 'new' }">最新</li>
       </ul>
     </div>
-    <Articles :articles="store.articles" />
+    <Articles :articles="props.articles" />
   </div>
 </template>
 

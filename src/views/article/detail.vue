@@ -9,12 +9,19 @@ const store = articleStore()
 const ustore = userStore()
 const article = ref<ArticleType | null>(null)
 const directs = ref([])
+const is_follow = ref(false)
 
 const toEdit = () => {
   window.open('/operate/' + article.value._id)
 }
 const toUser = () => {
   window.open('/user/' + article.value.user._id)
+}
+const toFollow = () => {
+  let user_id = article.value.created_by
+  ustore.toggleFollow({ user_id }, res => {
+    is_follow.value = !is_follow.value
+  })
 }
 const toPraiseOrStart = (type: 1 | 2) => {
   let { _id, created_by } = article.value
@@ -39,6 +46,9 @@ onMounted(() => {
   store.getArtDetail(id as string, data => {
     article.value = data
     directs.value = data.content.match(/#{1,2}.*/g)
+    ustore.checkFollow(data.created_by, res => {
+      is_follow.value = res
+    })
   })
 })
 </script>
@@ -93,7 +103,7 @@ onMounted(() => {
       </div>
       <div class="other-panel">
         <div class="user-pan pan" v-if="article">
-          <div class="fx" @click="toUser">
+          <div class="user fx" @click="toUser">
             <el-avatar :size="48">
               <img src="@/assets/avatar.png" />
             </el-avatar>
@@ -105,7 +115,9 @@ onMounted(() => {
             </div>
           </div>
           <div class="btn-wrap fx-b">
-            <el-button type="primary" plain>关注</el-button>
+            <el-button type="primary" @click="toFollow" plain>{{
+              is_follow ? '已关注' : '关注'
+            }}</el-button>
           </div>
           <div class="count-info">
             <div class="row fx">
@@ -225,6 +237,9 @@ onMounted(() => {
         margin-bottom: 20px;
       }
       .user-pan {
+        .user {
+          cursor: pointer;
+        }
         .rcolum {
           margin-left: 16px;
         }

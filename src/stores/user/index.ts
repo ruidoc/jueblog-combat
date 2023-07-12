@@ -42,6 +42,27 @@ const userStore = defineStore('user', {
         console.log(error)
       }
     },
+    // 关注/取消关注
+    async toggleFollow(
+      data: Record<string, string>,
+      fun?: (data: any) => void
+    ) {
+      try {
+        let res: any = await request.post('/follows/toggle', data)
+        if (fun) fun(res)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // 检测是否关注某用户
+    async checkFollow(user_id: string, fun?: (data: any) => void) {
+      try {
+        let res: any = await request.post('/follows/is-follow', { user_id })
+        if (fun) fun(res)
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
 })
 

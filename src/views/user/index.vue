@@ -5,12 +5,13 @@ import Articles from '@/views/article/lists.vue'
 import ShortMsgs from '@/views/short-msg/lists.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-const { getUser } = userStore()
+const { user_info, getUser, toggleFollow, checkFollow } = userStore()
 const { getArticles } = articleStore()
 const { getShortmsgs } = shortmsgStore()
 const route = useRoute()
 const curuser = ref<UserType | null>(null)
 const tab = ref('article')
+const is_follow = ref(false)
 const articles = ref({
   meta: null,
   data: [],
@@ -24,6 +25,11 @@ const onChange = (e: MouseEvent) => {
   let dom: any = e.target
   tab.value = dom.dataset.val
   getData()
+}
+const toFollow = () => {
+  toggleFollow({ user_id: uid.value }, res => {
+    is_follow.value = !is_follow.value
+  })
 }
 const getData = () => {
   if (tab.value == 'article') {
@@ -43,6 +49,9 @@ onMounted(() => {
   getUser(uid.value, res => {
     curuser.value = res
     getData()
+    checkFollow(uid.value, res => {
+      is_follow.value = res
+    })
   })
 })
 </script>
@@ -72,7 +81,16 @@ onMounted(() => {
               <el-icon :size="18"><Ticket /></el-icon>
               <span class="intro">{{ curuser.introduc }}</span>
             </span>
-            <span class="edit-btn">编辑个人资料</span>
+            <span v-if="user_info._id == uid" class="edit-btn"
+              >编辑个人资料</span
+            >
+            <el-button
+              v-else
+              @click="toFollow"
+              type="primary"
+              :plain="is_follow"
+              >{{ is_follow ? '已关注' : '关注' }}</el-button
+            >
           </div>
         </div>
       </div>
@@ -181,6 +199,9 @@ onMounted(() => {
           &:hover {
             opacity: 0.8;
           }
+        }
+        button {
+          width: 100px;
         }
       }
     }

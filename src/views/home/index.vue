@@ -30,7 +30,7 @@ onMounted(() => {
   <main class="main-box">
     <NavComp :category="store.categories" @on-filter="onFilter" />
     <div class="main-ctx">
-      <Articles @on-filter="onFilter" />
+      <Articles :articles="store.articles" @on-filter="onFilter" />
       <Writer />
     </div>
   </main>
