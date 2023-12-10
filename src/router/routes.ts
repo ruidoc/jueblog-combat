@@ -1,4 +1,4 @@
-import HomeView from '@/views/home/index.vue'
+import HomeView from '@/pages/home/index.vue'
 
 const routes = [
   {
@@ -9,27 +9,32 @@ const routes = [
   {
     path: '/shortmsg',
     name: 'shortmsg',
-    component: () => import('@/views/short-msg/index.vue'),
+    component: () => import('@/pages/short-msg/index.vue'),
   },
   {
     path: '/messages',
     name: 'messages',
-    component: () => import('@/views/messages/index.vue'),
+    component: () => import('@/pages/messages/index.vue'),
   },
   {
     path: '/article/:id',
     name: 'article',
-    component: () => import('@/views/article/detail.vue'),
+    component: () => import('@/pages/article/detail.vue'),
   },
   {
     path: '/operate/:tag',
     name: 'operate',
-    component: () => import('@/views/article/operate.vue'),
+    component: () => import('@/pages/article/operate.vue'),
   },
   {
     path: '/user/:id',
     name: 'user',
-    component: () => import('@/views/user/index.vue'),
+    component: () => import('@/pages/user/index.vue'),
+  },
+  {
+    path: '/setting/:tag',
+    name: 'setting',
+    component: () => import('@/pages/setting/index.vue'),
   },
 ]
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { userStore, articleStore, shortmsgStore } from '@/stores'
 import { Ticket, UserFilled } from '@element-plus/icons-vue'
-import Articles from '@/views/article/lists.vue'
-import ShortMsgs from '@/views/short-msg/lists.vue'
+import Articles from '@/pages/article/lists.vue'
+import ShortMsgs from '@/pages/short-msg/lists.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const { user_info, getUser, toggleFollow, checkFollow } = userStore()
@@ -49,9 +49,11 @@ onMounted(() => {
   getUser(uid.value, res => {
     curuser.value = res
     getData()
-    checkFollow(uid.value, res => {
-      is_follow.value = res
-    })
+    if (user_info) {
+      checkFollow(uid.value, res => {
+        is_follow.value = res
+      })
+    }
   })
 })
 </script>
@@ -60,7 +62,7 @@ onMounted(() => {
   <section class="user-page fx">
     <div class="content-panel">
       <div class="basic fx panel" v-if="curuser">
-        <el-avatar :size="90">
+        <el-avatar :size="90" :src="curuser.avatar">
           <img src="@/assets/avatar.png" />
         </el-avatar>
         <div class="uinfo-wrap">
@@ -81,8 +83,11 @@ onMounted(() => {
               <el-icon :size="18"><Ticket /></el-icon>
               <span class="intro">{{ curuser.introduc }}</span>
             </span>
-            <span v-if="user_info._id == uid" class="edit-btn"
-              >编辑个人资料</span
+            <router-link
+              to="/setting/user"
+              v-if="user_info?._id == uid"
+              class="edit-btn"
+              >设置</router-link
             >
             <el-button
               v-else
@@ -191,9 +196,10 @@ onMounted(() => {
           color: #007fff;
           font-size: 16px;
           font-weight: 500;
+          text-align: center;
           border: 1px solid #007fff;
           border-radius: 4px;
-          padding: 4px 10px;
+          padding: 4px 0;
           cursor: pointer;
           margin-left: 15px;
           &:hover {

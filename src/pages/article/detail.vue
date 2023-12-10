@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
 import MkRender from '@/components/mk-render/index.vue'
+import Comment from './comment.vue'
 const route = useRoute()
 const store = articleStore()
 const ustore = userStore()
@@ -46,9 +47,11 @@ onMounted(() => {
   store.getArtDetail(id as string, data => {
     article.value = data
     directs.value = data.content.match(/#{1,2}.*/g)
-    ustore.checkFollow(data.created_by, res => {
-      is_follow.value = res
-    })
+    if (ustore.user_info) {
+      ustore.checkFollow(data.created_by, res => {
+        is_follow.value = res
+      })
+    }
   })
 })
 </script>
@@ -83,7 +86,7 @@ onMounted(() => {
         <div class="content" v-if="article">
           <h1 className="art-title">{{ article.title }}</h1>
           <div className="options">
-            <span className="uname">{{ article.user.username }}</span>
+            <span className="uname hover">{{ article.user.username }}</span>
             <span className="time">
               {{ dayjs(article.created_at).format('YYYY-MM-DD HH:mm') }}
             </span>
@@ -100,11 +103,14 @@ onMounted(() => {
           </div>
           <MkRender :content="article.content" />
         </div>
+        <div class="content comment-wrap" v-if="article">
+          <Comment :art_id="article._id" />
+        </div>
       </div>
       <div class="other-panel">
         <div class="user-pan pan" v-if="article">
           <div class="user fx" @click="toUser">
-            <el-avatar :size="48">
+            <el-avatar :size="48" :src="article.user.avatar">
               <img src="@/assets/avatar.png" />
             </el-avatar>
             <div class="rcolum">
@@ -114,7 +120,10 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div class="btn-wrap fx-b">
+          <div
+            class="btn-wrap fx-b"
+            v-if="article.created_by != ustore.user_info?._id"
+          >
             <el-button type="primary" @click="toFollow" plain>{{
               is_follow ? '已关注' : '关注'
             }}</el-button>
@@ -211,11 +220,6 @@ onMounted(() => {
           color: var(--font-color3);
           .uname {
             font-weight: 500;
-            cursor: pointer;
-            color: var(--font-color2);
-            &:hover {
-              color: var(--el-color-primary);
-            }
           }
           .time {
             margin: 0 16px;
@@ -225,6 +229,10 @@ onMounted(() => {
             margin-left: 16px;
           }
         }
+      }
+      .comment-wrap {
+        margin-top: 20px;
+        padding: 8px 32px;
       }
     }
     .other-panel {

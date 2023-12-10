@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NavComp from './nav.vue'
 import Articles from './articles.vue'
-import Writer from './writer.vue'
+import Others from './other.vue'
 const store = articleStore()
 const router = useRouter()
 const route = useRoute()
@@ -31,7 +31,7 @@ onMounted(() => {
     <NavComp :category="store.categories" @on-filter="onFilter" />
     <div class="main-ctx">
       <Articles :articles="store.articles" @on-filter="onFilter" />
-      <Writer />
+      <Others />
     </div>
   </main>
 </template>

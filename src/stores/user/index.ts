@@ -63,6 +63,20 @@ const userStore = defineStore('user', {
         console.log(error)
       }
     },
+    // 修改用户信息
+    async updateUser(
+      id: string,
+      data: Partial<UserType>,
+      fun?: (data: any) => void
+    ) {
+      try {
+        let res: any = await request.put('/users/update/' + id, data)
+        this.getUser('self')
+        if (fun) fun(res)
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
 })
 

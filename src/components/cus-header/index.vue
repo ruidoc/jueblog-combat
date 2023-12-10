@@ -13,18 +13,16 @@
         trigger="hover"
         transition="none"
         :hide-after="50"
+        ref="popover"
         popper-class="header-message-popover"
       >
         <template #reference>
-          <el-button type="primary">
-            <span>开始创作</span> &nbsp;
-            <el-icon><CaretBottom /></el-icon>
-          </el-button>
+          <el-button type="primary" :icon="Plus">开始创作</el-button>
         </template>
         <div class="btn-wrap">
-          <el-button text @click="toWrite">写文章</el-button>
-          <el-button text>发沸点</el-button>
-          <el-button text>草稿箱</el-button>
+          <el-button text @click="toRoute('/operate/create')">写文章</el-button>
+          <el-button text @click="toRoute('/shortmsg')">发沸点</el-button>
+          <el-button text @click="toRoute('/setting/drafts')">草稿箱</el-button>
         </div>
       </el-popover>
       <template v-if="ustore.user_info">
@@ -32,28 +30,30 @@
         <UserAva></UserAva>
       </template>
       <template v-else>
-        <el-button @click="showLogin">登录/注册</el-button>
+        <el-button @click="ustore.showLogin">登录/注册</el-button>
       </template>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import Menus from './menus.vue'
 import Search from './search.vue'
 import Message from './message.vue'
 import UserAva from './user.vue'
-import { CaretBottom } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue'
 import { userStore } from '@/stores'
 const ustore = userStore()
-const showLogin = () => {
-  ustore.showLogin()
-}
+const router = useRouter()
+const popover = ref()
 const toHome = () => {
   location.href = '/'
 }
-const toWrite = () => {
-  window.open('/operate/create')
+const toRoute = (url: string) => {
+  popover.value.hide()
+  router.push(url)
 }
 // login()
 </script>

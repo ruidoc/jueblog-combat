@@ -2,7 +2,7 @@
   <section class="login-modal">
     <el-dialog v-model="visible" :show-close="false" width="350px">
       <template #header="{ close }">
-        <h4 class="title">登录掘金畅享更多权益</h4>
+        <h4 class="title">登录畅享更多权益</h4>
         <el-button link circle @click="toClose(close)">
           <el-icon :size="20" color="#888"><Close /></el-icon>
         </el-button>
@@ -51,8 +51,9 @@ const toLogin = () => {
   loading.value = true
   ustore.login(form.value, bool => {
     loading.value = false
-    visible.value = false
-    console.log(bool)
+    if (bool) {
+      visible.value = false
+    }
   })
 }
 const toClose = (close: Function) => {

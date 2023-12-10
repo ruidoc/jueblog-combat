@@ -12,42 +12,44 @@
       popper-class="header-user-popover"
     >
       <template #reference>
-        <el-avatar>
+        <el-avatar :src="user_info.avatar">
           <img src="@/assets/avatar.png" />
         </el-avatar>
       </template>
-      <div class="user-wrap">
-        <el-avatar :size="48">
+      <div class="user-wrap fx">
+        <el-avatar :size="48" :src="user_info.avatar">
           <img src="@/assets/avatar.png" />
         </el-avatar>
         <router-link :to="'/user/' + user_info._id">
           <div class="rcolum">
             <div class="name">{{ user_info.username }}</div>
-            <div class="jue">
+            <div class="jue fx">
               掘力值：<span>{{ user_info.jue_power }}</span>
             </div>
           </div>
         </router-link>
       </div>
       <el-divider />
-      <div class="preview">
+      <div class="preview fx">
         <div class="item">
-          <b>4</b>
+          <b>{{ user_info.follow_num }}</b>
           <div class="label">关注</div>
         </div>
         <div class="item">
-          <b>4</b>
+          <b>{{ user_info.good_num }}</b>
           <div class="label">赞过</div>
         </div>
         <div class="item">
-          <b>4</b>
-          <div class="label">收藏</div>
+          <b>{{ user_info.fans_num }}</b>
+          <div class="label">粉丝</div>
         </div>
       </div>
       <el-divider />
       <div class="btn-wrap">
-        <el-button text>个人主页</el-button>
-        <el-button text>用户设置</el-button>
+        <el-button text @click="toRoute('/user/' + user_info._id)"
+          >个人主页</el-button
+        >
+        <el-button text @click="toRoute('/setting/user')">用户设置</el-button>
       </div>
       <el-divider />
       <el-button text style="width: 100%" @click="toLogout">退出登录</el-button>
@@ -59,7 +61,11 @@
 import { RouterLink } from 'vue-router'
 import { userStore } from '@/stores'
 import { ElMessageBox } from 'element-plus'
+import router from '@/router'
 const { user_info } = userStore()
+const toRoute = (path: string) => {
+  router.push(path)
+}
 const toLogout = () => {
   ElMessageBox.confirm('确认退出登录？', '操作提醒', {
     confirmButtonText: '确认',
@@ -81,8 +87,6 @@ const toLogout = () => {
 }
 .header-user-popover {
   .user-wrap {
-    display: flex;
-    align-items: center;
     .rcolum {
       color: #444;
       margin-left: 12px;
@@ -92,8 +96,6 @@ const toLogout = () => {
       }
       .jue {
         font-size: 13px;
-        display: flex;
-        align-items: center;
         span {
           font-weight: bold;
           color: #000;
@@ -107,8 +109,6 @@ const toLogout = () => {
     margin: 10px 0;
   }
   .preview {
-    display: flex;
-    align-items: center;
     .item {
       flex: 1;
       text-align: center;

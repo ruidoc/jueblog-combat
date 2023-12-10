@@ -85,7 +85,7 @@ onMounted(() => {
         @input="ctxChange('title')"
         placeholder="请输入文章标题"
       />
-      <div className="right-box">
+      <div className="right-box fx">
         <span class="tip">文章将自动保存至草稿箱</span>
         <el-button class="actmo">草稿箱</el-button>
         <el-popover
@@ -102,7 +102,9 @@ onMounted(() => {
               {{ mode == 'create' ? '发布' : '修改' }}
             </el-button>
           </template>
-          <div class="p-title">发布文章</div>
+          <div class="p-title">
+            {{ mode == 'create' ? '发布' : '修改' }}文章
+          </div>
           <el-form label-width="85px">
             <el-form-item required label="分类：">
               <div
@@ -161,14 +163,11 @@ onMounted(() => {
   right: 0;
   top: 0;
   bottom: 0;
-  height: 100vh;
   .top-bar {
     background: #fff;
     padding: 0 27px;
     .right-box {
       margin-right: 20px;
-      display: flex;
-      align-items: center;
       .tip {
         color: var(--font-color3);
         font-size: 14px;
@@ -190,9 +189,9 @@ onMounted(() => {
     border: none;
     outline: none;
     width: 50%;
-  }
-  .title:focus {
-    box-shadow: none !important;
+    &:focus {
+      box-shadow: none !important;
+    }
   }
   .main {
     background: #fff;

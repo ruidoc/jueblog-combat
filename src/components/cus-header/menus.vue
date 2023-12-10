@@ -5,12 +5,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
-const data = ref(0)
-</script>
-
 <style lang="less">
 .header-menu {
   height: var(--header-height);
@@ -28,8 +22,8 @@ const data = ref(0)
       &::after {
         position: absolute;
         content: '';
-        left: 0.5rem;
-        right: 0.5rem;
+        left: 1rem;
+        right: 1rem;
         bottom: 0;
         height: 2px;
         background: var(--el-color-primary);

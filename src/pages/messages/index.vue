@@ -14,6 +14,7 @@ const praises = ref([])
 const follows = ref([])
 const onChange = (e: MouseEvent) => {
   let dom: any = e.target
+  if (dom.tagName != 'LI') return
   type.value = dom.dataset.val
   if (type.value != '1') {
     router.push({
@@ -29,8 +30,8 @@ const toLink = (id: string, tar: 1 | 2) => {
   window.open(prex + id)
 }
 const toFollow = (row: any) => {
-  let { user_id } = row
-  toggleFollow({ user_id }, res => {
+  let { fans_id } = row
+  toggleFollow({ user_id: fans_id }, res => {
     row.is_follow = !row.is_follow
   })
 }
@@ -67,12 +68,26 @@ onMounted(() => {
   <div class="message-page">
     <div class="banner-box">
       <ul class="fx" @click="onChange">
-        <li data-val="1" :class="['hover', { active: type == '1' }]">评论</li>
+        <li data-val="1" :class="['hover', { active: type == '1' }]">
+          评论
+          <el-badge
+            :value="store.msgInfo.comment"
+            :hidden="store.msgInfo.comment == 0"
+          />
+        </li>
         <li data-val="2" :class="['hover', { active: type == '2' }]">
           赞和收藏
+          <el-badge
+            :value="store.msgInfo.praise"
+            :hidden="store.msgInfo.praise == 0"
+          />
         </li>
         <li data-val="3" :class="['hover', { active: type == '3' }]">
           新增粉丝
+          <el-badge
+            :value="store.msgInfo.follow"
+            :hidden="store.msgInfo.follow == 0"
+          />
         </li>
       </ul>
     </div>
@@ -149,7 +164,7 @@ onMounted(() => {
             <div class="time">{{ getTimer(item.created_at) }}</div>
           </div>
           <el-button
-            :type="item.is_follow ? 'none' : 'primary'"
+            :type="item.is_follow ? 'default' : 'primary'"
             plain
             @click="toFollow(item)"
             >{{ item.is_follow ? '已关注' : '关注' }}</el-button
@@ -178,6 +193,9 @@ onMounted(() => {
         line-height: 46px;
         margin-right: 36px;
         font-size: 14px;
+        .el-badge {
+          transform: translateY(2px) scale(0.8);
+        }
       }
     }
   }

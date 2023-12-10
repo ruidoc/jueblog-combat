@@ -32,7 +32,7 @@ const toDelete = (id: string) => {
     <div class="msgs-item" v-for="item in props.shortmsgs">
       <div class="pad-wrap">
         <div class="user-meta fx">
-          <el-avatar :size="48">
+          <el-avatar :size="48" :src="item.user.avatar">
             <img src="@/assets/avatar.png" />
           </el-avatar>
           <div class="desc-area">

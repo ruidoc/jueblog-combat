@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import Articles from '@/views/article/lists.vue'
+import Articles from '@/pages/article/lists.vue'
 
 const route = useRoute()
 const orderby = ref('hot')

@@ -1,4 +1,4 @@
-interface UserType {
+interface CommentType {
   _id: string
   phone: string
   username: string

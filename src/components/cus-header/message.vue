@@ -16,22 +16,21 @@
           :hidden="msgInfo.total == 0"
           class="total-badge"
         >
-          <router-link class="icon-wrap" to="/messages">
+          <span class="icon-wrap" @click="toMessage('1')">
             <span class="iconfont icon-notify"></span>
-            <!-- <el-icon :size="22"><BellFilled /></el-icon> -->
-          </router-link>
+          </span>
         </el-badge>
       </template>
       <div class="btn-wrap">
-        <el-button text>
+        <el-button text @click="toMessage('1')">
           <span>评论</span>
           <el-badge :value="msgInfo.comment" :hidden="msgInfo.comment == 0" />
         </el-button>
-        <el-button text>
+        <el-button text @click="toMessage('2')">
           <span>赞和收藏</span>
           <el-badge :value="msgInfo.praise" :hidden="msgInfo.praise == 0" />
         </el-button>
-        <el-button text>
+        <el-button text @click="toMessage('3')">
           <span>新增粉丝</span>
           <el-badge :value="msgInfo.follow" :hidden="msgInfo.follow == 0" />
         </el-button>
@@ -42,13 +41,20 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { messageStore } from '@/stores'
 import { ElPopover } from 'element-plus'
-import { BellFilled } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 const msgstore = messageStore()
 let { msgInfo } = storeToRefs(msgstore)
+const router = useRouter()
+const toMessage = (type: string) => {
+  let url = '/messages'
+  if (type != '1') {
+    url += `?type=${type}`
+  }
+  router.push(url)
+}
 onMounted(() => {
   msgstore.getMessage()
   console.log(msgInfo)
@@ -61,6 +67,7 @@ onMounted(() => {
   .icon-wrap {
     color: #909090;
     padding: 4px 13px;
+    cursor: pointer;
     .iconfont {
       font-size: 22px;
     }

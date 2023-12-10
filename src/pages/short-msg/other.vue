@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { articleStore } from '@/stores'
+import { shortmsgStore } from '@/stores'
 import { onMounted } from 'vue'
-const store = articleStore()
+const store = shortmsgStore()
 
 onMounted(() => {})
 </script>
@@ -11,9 +11,9 @@ onMounted(() => {})
     <div class="hello-dv box-wrap">
       <div class="item">
         <h4>早上好</h4>
-        <p>点亮在社区的每一天</p>
+        <p>这里是仿掘金实战项目</p>
       </div>
-      <el-button>去签到</el-button>
+      <el-button>看详情</el-button>
     </div>
   </div>
 </template>
