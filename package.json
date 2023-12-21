@@ -1,12 +1,14 @@
 {
-  "name": "jueblog-frontend",
-  "version": "0.0.0",
+  "name": "jueblog-project",
+  "version": "0.0.1",
+  "description": "仿稀土倔金项目实战",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "server": "pm2 start --watch"
   },
   "dependencies": {
     "@bytemd/plugin-gfm": "^1.21.0",
@@ -23,7 +25,13 @@
     "showdown": "^2.1.0",
     "showdown-highlight": "^3.1.0",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "ali-oss": "^6.19.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "mongoose": "^7.2.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.68",
