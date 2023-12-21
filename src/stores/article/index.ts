@@ -3,6 +3,7 @@ import request from '@/request'
 
 const artiStore = defineStore('article', {
   state: () => ({
+    loading: false,
     articles: [] as ArticleType[],
     categories: [] as CategoryType[],
     meta: {
@@ -21,13 +22,16 @@ const artiStore = defineStore('article', {
         if (params.category == 'all') {
           params.category = null
         }
+        this.loading = true
         let res: any = await request.get('/arts/lists', { params })
         if (res && !fun) {
           this.articles = res.data
           this.meta = res.meta
         }
+        this.loading = false
         if (fun) fun(res)
       } catch (error) {
+        this.loading = false
         console.log(error)
       }
     },

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Opportunity } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const props = defineProps<{
@@ -26,7 +25,9 @@ onMounted(() => {
       v-for="item in props.category"
       @click="onClick(item)"
     >
-      <el-icon :size="18"><Opportunity /></el-icon>
+      <el-icon :size="18">
+        <component :is="item.icon" />
+      </el-icon>
       <span class="text">{{ item.label }}</span>
     </div>
   </div>

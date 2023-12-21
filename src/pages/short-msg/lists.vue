@@ -74,6 +74,13 @@ const toDelete = (id: string) => {
         </span>
       </div>
     </div>
+    <div style="background: #fff">
+      <el-empty
+        v-if="props.shortmsgs.length == 0"
+        :image-size="60"
+        description="暂无内容"
+      ></el-empty>
+    </div>
   </div>
 </template>
 

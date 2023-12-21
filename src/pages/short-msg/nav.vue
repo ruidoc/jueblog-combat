@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Opportunity } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const props = defineProps<{
@@ -11,8 +10,9 @@ const emit = defineEmits<{
 const route = useRoute()
 const active = ref('all')
 const onClick = (item: any) => {
-  active.value = item.key
-  emit('onFilter', { group: item.key })
+  let key = item.children && item.children[0] ? item.children[0].key : item.key
+  active.value = key
+  emit('onFilter', { group: key })
 }
 onMounted(() => {
   active.value = (route.query['group'] as string) || 'all'
@@ -21,13 +21,25 @@ onMounted(() => {
 
 <template>
   <div class="main-nav">
-    <div
-      :class="['cato-item', { active: active == item.key }]"
-      v-for="item in props.groups"
-      @click="onClick(item)"
-    >
-      <el-icon :size="18"><Opportunity /></el-icon>
-      <span class="text">{{ item.label }}</span>
+    <div v-for="item in props.groups" class="cato-item-wrap">
+      <div
+        :class="['cato-item', { active: active == item.key }]"
+        @click="onClick(item)"
+      >
+        <el-icon :size="18">
+          <component :is="item.icon" />
+        </el-icon>
+        <span class="text">{{ item.label }}</span>
+      </div>
+      <div v-if="item.children" class="childs-wrap">
+        <div
+          :class="['cato-item sub', { active: active == subitem.key }]"
+          v-for="subitem in item.children"
+          @click="onClick(subitem)"
+        >
+          {{ subitem.label }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +68,10 @@ onMounted(() => {
     .el-icon {
       color: #8a919f;
     }
+    &.sub {
+      font-size: 14px;
+      padding-left: 48px;
+    }
     &:hover {
       background: var(--bg-color1);
       color: var(--el-color-primary);
@@ -72,7 +88,7 @@ onMounted(() => {
       }
     }
     .text {
-      padding-left: 17px;
+      padding-left: 13px;
     }
   }
 }

@@ -14,5 +14,7 @@ interface ShortMsgType {
 
 interface GroupType {
   key: string
+  icon?: string
   label: string
+  children?: GroupType[]
 }

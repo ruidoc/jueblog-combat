@@ -7,6 +7,7 @@ const route = useRoute()
 const orderby = ref('hot')
 const props = defineProps<{
   articles: any[]
+  loading: boolean
 }>()
 const emit = defineEmits<{
   (e: 'onFilter', json: Record<string, string>): void
@@ -31,7 +32,10 @@ onMounted(() => {
         <li data-val="new" :class="{ active: orderby == 'new' }">最新</li>
       </ul>
     </div>
-    <Articles :articles="props.articles" />
+    <Articles v-if="!loading" :articles="props.articles" />
+    <div v-show="loading" style="padding: 20px">
+      <el-skeleton animated />
+    </div>
   </div>
 </template>
 

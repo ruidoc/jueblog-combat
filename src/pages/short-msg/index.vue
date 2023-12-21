@@ -83,11 +83,9 @@ onMounted(() => {
               <div class="groups-pop">
                 <el-radio-group v-model="form.group">
                   <el-radio label="all">--不选择圈子--</el-radio>
-                  <el-radio
-                    v-for="item in store.groups.slice(1)"
-                    :label="item.key"
-                    >{{ item.label }}</el-radio
-                  >
+                  <el-radio v-for="item in store.circles" :label="item.key">{{
+                    item.label
+                  }}</el-radio>
                 </el-radio-group>
               </div>
             </el-popover>
@@ -105,7 +103,14 @@ onMounted(() => {
             <li data-val="new" :class="{ active: orderby == 'new' }">最新</li>
           </ul>
         </div>
-        <ShortMsgs :shortmsgs="store.shortmsgs" @on-filter="onFilter" />
+        <ShortMsgs
+          v-if="!store.loading"
+          :shortmsgs="store.shortmsgs"
+          @on-filter="onFilter"
+        />
+        <div v-show="store.loading" class="loading-wrap">
+          <el-skeleton animated />
+        </div>
       </div>
       <Other />
     </div>
@@ -153,6 +158,10 @@ onMounted(() => {
           width: 100px;
         }
       }
+    }
+    .loading-wrap {
+      background: #fff;
+      padding: 20px;
     }
   }
   .main-ctx {

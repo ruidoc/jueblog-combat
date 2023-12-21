@@ -44,6 +44,11 @@ const toDetail = (item: any) => {
         <div class="img-wrap"></div>
       </div>
     </div>
+    <el-empty
+      v-if="props.articles.length == 0"
+      :image-size="100"
+      description="暂无内容"
+    ></el-empty>
   </div>
 </template>
 

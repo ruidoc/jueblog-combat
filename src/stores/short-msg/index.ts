@@ -3,6 +3,7 @@ import request from '@/request'
 
 const stmsgStore = defineStore('short-msg', {
   state: () => ({
+    loading: false,
     shortmsgs: [] as ShortMsgType[],
     groups: [] as GroupType[],
     meta: {
@@ -21,13 +22,16 @@ const stmsgStore = defineStore('short-msg', {
         if (params.group == 'all') {
           params.group = null
         }
+        this.loading = true
         let res: any = await request.get('/stmsgs/lists', { params })
         if (res && !fun) {
           this.shortmsgs = res.data
           this.meta = res.meta
         }
+        this.loading = false
         if (fun) fun(res)
       } catch (error) {
+        this.loading = false
         console.log(error)
       }
     },
@@ -52,7 +56,7 @@ const stmsgStore = defineStore('short-msg', {
       }
     },
     getGpLabel(key: string) {
-      let one = this.groups.find(row => row.key == key)
+      let one = this.circles.find(row => row.key == key)
       return one ? one.label : null
     },
     // 创建沸点
@@ -73,6 +77,12 @@ const stmsgStore = defineStore('short-msg', {
       } catch (error) {
         console.log(error)
       }
+    },
+  },
+  getters: {
+    circles: state => {
+      let circles = state.groups.find(row => row.key == 'circles')
+      return circles ? circles.children : []
     },
   },
 })
