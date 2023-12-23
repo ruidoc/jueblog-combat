@@ -1,5 +1,5 @@
 {
-  "name": "jueblog-project",
+  "name": "jueblog-combat",
   "version": "0.0.1",
   "description": "仿稀土倔金项目实战",
   "scripts": {
@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "server": "pm2 start --watch"
+    "server": "pm2 start --attach --watch"
   },
   "dependencies": {
     "@bytemd/plugin-gfm": "^1.21.0",

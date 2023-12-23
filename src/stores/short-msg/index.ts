@@ -6,6 +6,7 @@ const stmsgStore = defineStore('short-msg', {
     loading: false,
     shortmsgs: [] as ShortMsgType[],
     groups: [] as GroupType[],
+    circles: [] as GroupType[],
     meta: {
       page: 1,
       per_page: 10,
@@ -38,8 +39,10 @@ const stmsgStore = defineStore('short-msg', {
     // 沸点分组
     async getGroups() {
       try {
-        let res: any = await request.get('/stmsgs/group')
+        let res: GroupType[] = await request.get('/stmsgs/group')
         this.groups = res
+        let circle = res.find(row => row.key == 'circles')
+        this.circles = circle?.children || []
       } catch (error) {
         console.log(error)
       }
@@ -77,12 +80,6 @@ const stmsgStore = defineStore('short-msg', {
       } catch (error) {
         console.log(error)
       }
-    },
-  },
-  getters: {
-    circles: state => {
-      let circles = state.groups.find(row => row.key == 'circles')
-      return circles ? circles.children : []
     },
   },
 })

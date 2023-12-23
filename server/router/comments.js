@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 const { filterJson } = require('../utils/index')
 var CommsModel = require('../model/comments')
+var UsersModel = require('../model/users')
 var MessModel = require('../model/messages')
 
 router.all('/', (req, res) => {
@@ -63,12 +64,18 @@ router.get('/list/:source_id', async (req, res, next) => {
     let handle = item => {
       let created_by =
         item.created_by.length > 0
-          ? filterJson(item.created_by[0], ['_id', 'username', 'position'])
+          ? filterJson(item.created_by[0], [
+              '_id',
+              'username',
+              'position',
+              'avatar',
+            ])
           : null
       return {
         _id: item._id,
         content: item.content,
         created_by,
+        created_at: item.created_at,
       }
     }
     let result = lists

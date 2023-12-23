@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Types
 const { groups } = require('../config/static')
+const circles = groups.find(row => row.key == 'circles')?.children || []
 
 const shortmsgsSchema = new mongoose.Schema({
   content: { type: String, required: true },
@@ -9,7 +10,7 @@ const shortmsgsSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
   group: {
     type: String,
-    enum: groups.map(group => group.key),
+    enum: circles.map(group => group.key).concat(['all']),
     required: true,
   },
 })

@@ -16,10 +16,11 @@
           :rows="2"
         ></el-input>
         <div class="actions fx-b">
-          <div class="desc">可按回车键发表评论</div>
+          <div class="desc">良言一句三冬暖，诚恳交流、不带情绪</div>
           <el-button
             type="primary"
             :disabled="form.content.length == 0"
+            :loading="loading"
             @click="toCreate"
             >发表评论</el-button
           >
@@ -27,29 +28,52 @@
       </div>
     </div>
     <div class="title">全部评论 {{ comments.length }}</div>
+    <cus-comments :comments="comments" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { commentStore, userStore } from '@/stores'
+import { ElMessage } from 'element-plus'
+import CusComments from '@/components/cus-comment/index.vue'
 const { user_info } = userStore()
-const { getComments } = commentStore()
+const loading = ref(false)
+const store = commentStore()
 const props = defineProps<{
   art_id: string
+  user_id: string
 }>()
-const form = ref({
+const form = ref<Partial<CommentType>>({
   content: '',
-  group: 'all',
 })
 const comments = ref([])
 const toCreate = () => {
-  console.log(1)
+  if (!form.value.content) {
+    return ElMessage.error('评论内容不可为空')
+  }
+  loading.value = true
+  store.createComment(form.value, res => {
+    loading.value = false
+    form.value.content = ''
+    getComments()
+  })
 }
-onMounted(() => {
-  getComments(props.art_id, res => {
+const getComments = () => {
+  store.getComments(props.art_id, res => {
     comments.value = res
   })
+}
+onMounted(() => {
+  form.value = {
+    source_id: props.art_id,
+    source_type: 1,
+    type: 'source',
+    content: '',
+    target_user: props.user_id,
+    created_by: user_info._id,
+  }
+  getComments()
 })
 </script>
 

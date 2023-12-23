@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NavComp from './nav.vue'
 import ShortMsgs from './lists.vue'
-import Other from './other.vue'
+import Other from '../home/other.vue'
 import { ElMessage } from 'element-plus'
 const store = shortmsgStore()
 const router = useRouter()

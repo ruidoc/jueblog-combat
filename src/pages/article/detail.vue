@@ -104,7 +104,7 @@ onMounted(() => {
           <MkRender :content="article.content" />
         </div>
         <div class="content comment-wrap" v-if="article">
-          <Comment :art_id="article._id" />
+          <Comment :art_id="article._id" :user_id="article.user._id" />
         </div>
       </div>
       <div class="other-panel">
@@ -198,7 +198,7 @@ onMounted(() => {
   .main-box {
     position: relative;
     width: 1140px;
-    margin: 0 auto;
+    margin: 0 auto 80px auto;
     box-sizing: border-box;
     align-items: flex-start;
     .content-panel {
@@ -238,6 +238,8 @@ onMounted(() => {
     .other-panel {
       margin-left: 20px;
       width: 300px;
+      position: sticky;
+      top: 80px;
       .pan {
         background: #fff;
         border-radius: 4px;

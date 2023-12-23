@@ -1,40 +1,38 @@
-# jueblog-frontend
+# 仿稀土倔金项目实战
 
-This template should help get you started developing with Vue 3 in Vite.
+本项目是一个仿稀土倔金的博客项目，包含了文章、沸点的发布等功能。利用最新技术栈开发的博客项目，也是前端新书《前端开发实战派》的综合项目。
 
-## Recommended IDE Setup
+- 前端技术栈：`Vue3 + Pinia + TypeScript`
+- 后段技术栈：`Express + MongoDB + Serverless`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 启动项目
 
-## Type Support for `.vue` Imports in TS
+将项目下载到本地，然后按照以下步骤运行。
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+（1）全局安装 `pm2`
 
 ```sh
-npm install
+$ yarn global add pm2
 ```
 
-### Compile and Hot-Reload for Development
+（2）安装项目依赖
 
 ```sh
-npm run dev
+$ yarn
 ```
 
-### Type-Check, Compile and Minify for Production
+（3）启动项目
 
 ```sh
-npm run build
+$ yarn run server
 ```
+
+此命令执行后，会将项目前端与后端同时启动，并支持修改自动更新。可以用 `pm2 ls` 命令查看启动结果：
+
+如果想查看日志，使用 `pm2 logs 0` 命令。
+
+## 购买纸质书
+
+零基础全栈开发本项目？基础+实战详细介绍全在这本书里，点击购买。
+
+<img src="public/book.png"/>
