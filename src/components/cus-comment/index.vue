@@ -2,7 +2,7 @@
   <section class="comment-component">
     <div v-for="comment in props.comments" class="par-comment">
       <el-avatar :size="36">
-        <img src="@/assets/avatar.png" />
+        <img src="https://www.ruims.top/static/logo-round.png" />
       </el-avatar>
       <div class="ctx-wrap">
         <div class="uinfo">
@@ -10,13 +10,34 @@
           <span class="p">{{ comment.created_by.position }}</span>
         </div>
         <div class="content">{{ comment.content }}</div>
-        <div class="handle">
-          <span>{{ getTimer(comment.created_at) }}</span>
-          <span
-            :class="['repbtn', { active: act_id == comment._id }]"
-            @click="toReply(comment._id)"
-            >{{ act_id == comment._id ? '取消回复' : '回复' }}</span
-          >
+        <Replay
+          :time="comment.created_at"
+          :active="act_id == comment._id"
+          @on-active="b => setActive(b, comment._id)"
+          @on-reply="c => toReply(c, 'comment', comment)"
+        />
+        <div v-for="item in comment.replies" class="repliy-item">
+          <el-avatar :size="28">
+            <img src="https://www.ruims.top/static/logo-round.png" />
+          </el-avatar>
+          <div class="ctx-wrap">
+            <div class="uinfo">
+              <span class="u">{{ item.created_by.username }}</span>
+              <span v-if="item.reply_id">
+                <span class="content">&nbsp;回复&nbsp;</span>
+                <span class="u">{{
+                  whoReoly(item.reply_id, comment.replies)
+                }}</span>
+              </span>
+              <span class="content">：{{ item.content }}</span>
+            </div>
+            <Replay
+              :time="item.created_at"
+              :active="act_id == item._id"
+              @on-active="b => setActive(b, item._id)"
+              @on-reply="c => toReply(c, 'reply', item, comment._id)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -24,18 +45,42 @@
 </template>
 
 <script lang="ts" setup>
-import { getTimer } from '@/utils'
 import { ref } from 'vue'
+import Replay from './replay.vue'
 const act_id = ref('')
 const props = defineProps<{
   comments: CommentResultType[]
 }>()
-const toReply = (_id: string) => {
-  if (act_id.value == _id) {
-    act_id.value = ''
-  } else {
-    act_id.value = _id
+const emit = defineEmits<{
+  (e: 'onReply', json: Partial<CommentType>): void
+}>()
+const toReply = (
+  content: string,
+  type: string,
+  item: CommentRepliyType,
+  parent_id?: string
+) => {
+  console.log(content)
+  let form: any = {
+    type,
+    content,
+    parent_id: parent_id || item._id,
+    target_user: item.created_by._id,
   }
+  if (type == 'reply') {
+    form.reply_id = item._id
+  }
+  emit('onReply', form)
+  setTimeout(() => {
+    act_id.value = ''
+  }, 600)
+}
+const setActive = (bool: boolean, id: string) => {
+  act_id.value = bool ? id : ''
+}
+const whoReoly = (rid: string, replies: any[]) => {
+  let one = replies.find(row => row._id == rid)
+  return one ? one.created_by.username : '未知'
 }
 </script>
 
@@ -44,7 +89,7 @@ const toReply = (_id: string) => {
   .par-comment {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     .ctx-wrap {
       flex: 1;
       margin-left: 16px;
@@ -56,6 +101,7 @@ const toReply = (_id: string) => {
         font-size: 16px;
         line-height: 24px;
         color: var(--font-color2);
+        cursor: pointer;
       }
       .p {
         font-size: 14px;
@@ -69,18 +115,15 @@ const toReply = (_id: string) => {
       line-height: 28px;
       margin: 4px 0;
     }
-    .handle {
-      font-size: 13px;
-      color: var(--font-color3);
-      .repbtn {
+    .repliy-item {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 7px;
+      .ctx-wrap {
         margin-left: 12px;
-        cursor: pointer;
-        &:hover {
-          color: var(--el-color-primary);
-        }
-        &.active {
-          color: var(--el-color-primary);
-        }
+      }
+      .el-avatar {
+        margin-top: 5px;
       }
     }
   }

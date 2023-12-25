@@ -5,9 +5,9 @@ export const getTimer = (stringTime: string) => {
   let week = day * 7
   let month = day * 30
   let time1 = new Date().getTime() //当前的时间戳
-  console.log(time1)
+  // console.log(time1)
   let time2 = Date.parse(stringTime) //指定时间的时间戳
-  console.log(time2)
+  // console.log(time2)
   let time = time1 - time2
 
   let result = null

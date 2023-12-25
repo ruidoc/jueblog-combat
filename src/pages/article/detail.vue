@@ -104,7 +104,11 @@ onMounted(() => {
           <MkRender :content="article.content" />
         </div>
         <div class="content comment-wrap" v-if="article">
-          <Comment :art_id="article._id" :user_id="article.user._id" />
+          <Comment
+            :art_id="article._id"
+            :user_id="article.user._id"
+            :count="article.comments"
+          />
         </div>
       </div>
       <div class="other-panel">

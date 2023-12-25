@@ -1,5 +1,5 @@
 <template>
-  <div class="arts-comments">
+  <div class="msgs-comments">
     <div class="title">评论</div>
     <div class="comment-create-box fxt">
       <div class="avatar">
@@ -19,6 +19,8 @@
           <div class="desc">良言一句三冬暖，诚恳交流、不带情绪</div>
           <el-button
             type="primary"
+            size="small"
+            class="actmo"
             :disabled="form.content.length == 0"
             :loading="loading"
             @click="() => toCreate()"
@@ -27,8 +29,10 @@
         </div>
       </div>
     </div>
-    <div class="title">全部评论 {{ props.count }}</div>
-    <cus-comments :comments="comments" @on-reply="toCreate" />
+    <div class="title">全部评论</div>
+    <div class="cuscom-wrap">
+      <cus-comments :comments="comments" @on-reply="toCreate" />
+    </div>
   </div>
 </template>
 
@@ -41,9 +45,8 @@ const { user_info } = userStore()
 const loading = ref(false)
 const store = commentStore()
 const props = defineProps<{
-  art_id: string
+  msg_id: string
   user_id: string
-  count: number
 }>()
 const form = ref<Partial<CommentType>>({
   content: '',
@@ -62,14 +65,14 @@ const toCreate = (data = {}) => {
   })
 }
 const getComments = () => {
-  store.getComments(props.art_id, res => {
+  store.getComments(props.msg_id, res => {
     comments.value = res
   })
 }
 onMounted(() => {
   form.value = {
-    source_id: props.art_id,
-    source_type: 1,
+    source_id: props.msg_id,
+    source_type: 2,
     type: 'source',
     content: '',
     target_user: props.user_id,
@@ -80,12 +83,11 @@ onMounted(() => {
 </script>
 
 <style lang="less">
-.arts-comments {
+.msgs-comments {
   .title {
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 16px;
     font-weight: 600;
-    margin: 12px 0 18px;
+    margin: 12px 3px 14px;
   }
   .avatar {
     margin-right: 16px;
@@ -95,7 +97,7 @@ onMounted(() => {
     textarea {
       background: #f5f5f5;
       box-shadow: none;
-      font-size: 15px;
+      font-size: 14px;
       padding: 7px 12px;
       &:focus {
         box-shadow: 0 0 0 1px var(--el-color-primary) inset;
@@ -109,6 +111,10 @@ onMounted(() => {
         color: var(--font-color3);
       }
     }
+  }
+  .cuscom-wrap {
+    transform: scale(0.99);
+    padding-top: 2px;
   }
 }
 </style>

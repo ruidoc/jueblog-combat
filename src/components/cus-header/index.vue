@@ -17,7 +17,9 @@
         popper-class="header-message-popover"
       >
         <template #reference>
-          <el-button type="primary" :icon="Plus">开始创作</el-button>
+          <el-button type="primary" class="actmo" :icon="EditPen"
+            >开始创作</el-button
+          >
         </template>
         <div class="btn-wrap">
           <el-button text @click="toRoute('/operate/create')">写文章</el-button>
@@ -43,7 +45,7 @@ import Menus from './menus.vue'
 import Search from './search.vue'
 import Message from './message.vue'
 import UserAva from './user.vue'
-import { Plus } from '@element-plus/icons-vue'
+import { EditPen } from '@element-plus/icons-vue'
 import { userStore } from '@/stores'
 const ustore = userStore()
 const router = useRouter()
@@ -53,7 +55,11 @@ const toHome = () => {
 }
 const toRoute = (url: string) => {
   popover.value.hide()
-  router.push(url)
+  if (url.includes('create')) {
+    window.open(url)
+  } else {
+    router.push(url)
+  }
 }
 // login()
 </script>

@@ -21,7 +21,8 @@ interface CommentResultType {
 
 interface CommentRepliyType {
   _id: string
-  reply_id: string
+  reply_id?: string
   content: string
   created_by: Partial<UserType>
+  created_at: string
 }
