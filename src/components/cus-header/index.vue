@@ -1,10 +1,13 @@
 <template>
   <header>
-    <div class="inner-row">
-      <img class="logo" src="@/assets/logo.svg" @click="toHome" />
+    <div class="inner-row fx">
+      <span class="fx-c title-wrap" @click="toHome">
+        <img class="logo" src="/logo.png" />
+        <span class="title">仿稀土掘金</span>
+      </span>
       <Menus></Menus>
     </div>
-    <div class="inner-row">
+    <div class="inner-row fx">
       <Search style="margin-right: 26px"></Search>
       <el-popover
         placement="bottom-end"
@@ -17,9 +20,7 @@
         popper-class="header-message-popover"
       >
         <template #reference>
-          <el-button type="primary" class="actmo" :icon="EditPen"
-            >开始创作</el-button
-          >
+          <el-button type="primary" :icon="EditPen">开始创作</el-button>
         </template>
         <div class="btn-wrap">
           <el-button text @click="toRoute('/operate/create')">写文章</el-button>
@@ -32,7 +33,7 @@
         <UserAva></UserAva>
       </template>
       <template v-else>
-        <el-button @click="ustore.showLogin">登录/注册</el-button>
+        <el-button class="hover" @click="ustore.showLogin">登录/注册</el-button>
       </template>
     </div>
   </header>
@@ -55,6 +56,9 @@ const toHome = () => {
 }
 const toRoute = (url: string) => {
   popover.value.hide()
+  if (!ustore.user_info) {
+    return ustore.showLogin()
+  }
   if (url.includes('create')) {
     window.open(url)
   } else {
@@ -66,17 +70,23 @@ const toRoute = (url: string) => {
 
 <style lang="less">
 header {
-  height: 100%;
-  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
+  padding: 0 24px;
   .inner-row {
-    display: flex;
-    align-items: center;
+    .title-wrap {
+      cursor: pointer;
+    }
+    .title {
+      font-size: 21px;
+      font-weight: 300;
+      margin-right: 20px;
+    }
     .logo {
-      height: 22px;
-      margin-right: 12px;
+      height: 26px;
+      margin-right: 6px;
       cursor: pointer;
     }
   }

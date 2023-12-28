@@ -41,12 +41,29 @@ const toPraiseOrStart = (type: 1 | 2) => {
     }
   })
 }
+const scrollView = (name: string, idclass = true) => {
+  let t = idclass ? '.' : '#'
+  let dom = document.querySelector(t + name)
+  dom.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
 
 onMounted(() => {
   let { id } = route.params
   store.getArtDetail(id as string, data => {
     article.value = data
-    directs.value = data.content.match(/#{1,2}.*/g)
+    let dirs = data.content.match(/#{1,}.*/g)
+    let index = 0
+    if (dirs.every(d => d.includes('##'))) {
+      index++
+    }
+    if (dirs.every(d => d.includes('###'))) {
+      index++
+    }
+    if (dirs.every(d => d.includes('####'))) {
+      index++
+    }
+    let rdirs = dirs.map(d => d.slice(index))
+    directs.value = rdirs
     if (ustore.user_info) {
       ustore.checkFollow(data.created_by, res => {
         is_follow.value = res
@@ -67,7 +84,7 @@ onMounted(() => {
           <span class="iconfont icon-zan2 izan"></span>
         </el-badge>
       </div>
-      <div class="icon-act fx-c">
+      <div class="icon-act fx-c" @click="scrollView('comment-wrap')">
         <el-badge :value="article.comments" :hidden="article.comments == 0">
           <span class="iconfont icon-wenda2"></span>
         </el-badge>
@@ -85,7 +102,7 @@ onMounted(() => {
       <div class="content-panel">
         <div class="content" v-if="article">
           <h1 className="art-title">{{ article.title }}</h1>
-          <div className="options">
+          <div className="options fx">
             <span className="uname hover">{{ article.user.username }}</span>
             <span className="time">
               {{ dayjs(article.created_at).format('YYYY-MM-DD HH:mm') }}
@@ -150,11 +167,10 @@ onMounted(() => {
         <div class="direct-pan pan">
           <div class="title">目录</div>
           <ul>
-            <template v-for="item in directs">
-              <li v-if="item.includes('##')">
-                &nbsp;{{ item.trim().slice(2) }}
+            <template v-for="item in directs" :key="item">
+              <li @click="(e: any) => scrollView(e.target.innerText, false)">
+                {{ item.slice(item.search(/#(?!#)/) + 1).trim() }}
               </li>
-              <li v-else>{{ item.trim().slice(1) }}</li>
             </template>
           </ul>
         </div>
@@ -165,10 +181,11 @@ onMounted(() => {
 
 <style lang="less">
 .article-detail-page {
+  position: relative;
   .handle-box {
     position: fixed;
     top: 140px;
-    left: 5.5rem;
+    left: calc(50vw - 654px);
     .icon-act {
       width: 48px;
       height: 48px;
@@ -217,8 +234,6 @@ onMounted(() => {
           font-weight: 700;
         }
         .options {
-          display: flex;
-          align-items: center;
           margin: 0 30px;
           font-size: 14px;
           color: var(--font-color3);

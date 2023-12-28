@@ -1,27 +1,35 @@
 <template>
-  <section class="comment-component">
-    <div v-for="comment in props.comments" class="par-comment">
+  <section :class="['comment-component', { active: props.smallSize }]">
+    <div
+      v-for="comment in props.comments"
+      :key="comment._id"
+      class="par-comment fxt"
+    >
       <el-avatar :size="36">
         <img src="https://www.ruims.top/static/logo-round.png" />
       </el-avatar>
       <div class="ctx-wrap">
-        <div class="uinfo">
+        <div class="uinfo fx">
           <span class="u">{{ comment.created_by.username }}</span>
           <span class="p">{{ comment.created_by.position }}</span>
         </div>
         <div class="content">{{ comment.content }}</div>
         <Replay
-          :time="comment.created_at"
-          :active="act_id == comment._id"
+          :item="comment"
+          :active="act_id"
           @on-active="b => setActive(b, comment._id)"
           @on-reply="c => toReply(c, 'comment', comment)"
         />
-        <div v-for="item in comment.replies" class="repliy-item">
+        <div
+          v-for="item in comment.replies"
+          :key="item._id"
+          class="repliy-item fxt"
+        >
           <el-avatar :size="28">
             <img src="https://www.ruims.top/static/logo-round.png" />
           </el-avatar>
           <div class="ctx-wrap">
-            <div class="uinfo">
+            <div class="uinfo fx">
               <span class="u">{{ item.created_by.username }}</span>
               <span v-if="item.reply_id">
                 <span class="content">&nbsp;回复&nbsp;</span>
@@ -32,8 +40,8 @@
               <span class="content">：{{ item.content }}</span>
             </div>
             <Replay
-              :time="item.created_at"
-              :active="act_id == item._id"
+              :item="item"
+              :active="act_id"
               @on-active="b => setActive(b, item._id)"
               @on-reply="c => toReply(c, 'reply', item, comment._id)"
             />
@@ -50,6 +58,7 @@ import Replay from './replay.vue'
 const act_id = ref('')
 const props = defineProps<{
   comments: CommentResultType[]
+  smallSize?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'onReply', json: Partial<CommentType>): void
@@ -87,16 +96,12 @@ const whoReoly = (rid: string, replies: any[]) => {
 <style lang="less">
 .comment-component {
   .par-comment {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 18px;
+    margin-bottom: 23px;
     .ctx-wrap {
       flex: 1;
       margin-left: 16px;
     }
     .uinfo {
-      display: flex;
-      align-items: center;
       .u {
         font-size: 16px;
         line-height: 24px;
@@ -112,12 +117,10 @@ const whoReoly = (rid: string, replies: any[]) => {
     }
     .content {
       font-size: 16px;
-      line-height: 28px;
+      line-height: 32px;
       margin: 4px 0;
     }
     .repliy-item {
-      display: flex;
-      align-items: flex-start;
       margin-top: 7px;
       .ctx-wrap {
         margin-left: 12px;
@@ -125,6 +128,21 @@ const whoReoly = (rid: string, replies: any[]) => {
       .el-avatar {
         margin-top: 5px;
       }
+    }
+  }
+  &.active .par-comment {
+    .uinfo {
+      .u {
+        font-size: 14px;
+        line-height: 22px;
+      }
+      .p {
+        font-size: 12px;
+      }
+    }
+    .content {
+      font-size: 14px;
+      line-height: 26px;
     }
   }
 }

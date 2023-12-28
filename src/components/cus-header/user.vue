@@ -60,18 +60,14 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { userStore } from '@/stores'
-import { ElMessageBox } from 'element-plus'
 import router from '@/router'
+import { cusConfirm } from '@/utils'
 const { user_info } = userStore()
 const toRoute = (path: string) => {
   router.push(path)
 }
 const toLogout = () => {
-  ElMessageBox.confirm('确认退出登录？', '操作提醒', {
-    confirmButtonText: '确认',
-    cancelButtonText: '取消',
-    type: 'warning',
-  }).then(() => {
+  cusConfirm('确认退出登录？', () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user_info')
     location.href = '/'

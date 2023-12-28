@@ -3,7 +3,7 @@
     <div class="title">评论</div>
     <div class="comment-create-box fxt">
       <div class="avatar">
-        <el-avatar :src="user_info.avatar">
+        <el-avatar :src="user_info?.avatar">
           <img src="@/assets/avatar.png" />
         </el-avatar>
       </div>
@@ -29,9 +29,13 @@
         </div>
       </div>
     </div>
-    <div class="title">全部评论</div>
-    <div class="cuscom-wrap">
-      <cus-comments :comments="comments" @on-reply="toCreate" />
+    <div class="cuscom-wrap" v-if="comments[0]">
+      <div class="title sub">全部评论</div>
+      <cus-comments
+        :comments="comments"
+        :small-size="true"
+        @on-reply="toCreate"
+      />
     </div>
   </div>
 </template>
@@ -58,6 +62,7 @@ const toCreate = (data = {}) => {
     return ElMessage.error('评论内容不可为空')
   }
   loading.value = true
+  form_data.created_by = user_info?._id
   store.createComment(form_data, res => {
     loading.value = false
     form.value.content = ''
@@ -76,7 +81,6 @@ onMounted(() => {
     type: 'source',
     content: '',
     target_user: props.user_id,
-    created_by: user_info._id,
   }
   getComments()
 })
@@ -87,7 +91,10 @@ onMounted(() => {
   .title {
     font-size: 16px;
     font-weight: 600;
-    margin: 12px 3px 14px;
+    margin: 15px 3px 15px;
+    &.sub {
+      margin: 0px 3px 17px;
+    }
   }
   .avatar {
     margin-right: 16px;

@@ -49,6 +49,12 @@ p {
     border-radius: 2px;
     height: 32px;
   }
+  &.hover {
+    color: var(--el-button-hover-text-color);
+    border-color: var(--el-button-hover-border-color);
+    background-color: var(--el-button-hover-bg-color);
+    outline: 0;
+  }
 }
 
 .el-message {
@@ -82,6 +88,10 @@ p {
 .fxt {
   display: flex;
   align-items: flex-start;
+}
+.fxe {
+  display: flex;
+  align-items: flex-end;
 }
 .fx-c {
   .fx();
@@ -129,5 +139,16 @@ p {
   }
   &.active {
     color: var(--el-color-primary);
+  }
+}
+
+.el-message-box__message {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.el-message-box__header {
+  svg {
+    font-size: 22px;
+    margin-top: 2px;
   }
 }

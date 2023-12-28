@@ -1,12 +1,28 @@
 <template>
   <div class="comment-replay">
-    <div class="handle">
-      <span>{{ getTimer(time) }}</span>
-      <span :class="['repbtn', { active: props.active }]" @click="onActive">{{
-        props.active ? '取消回复' : '回复'
-      }}</span>
+    <div class="handle fx-b">
+      <div>
+        <span>{{ getTimer(item.created_at) }}</span>
+        <span
+          :class="['repbtn', { active: active == item._id }]"
+          @click="onActive"
+          >{{ active == item._id ? '取消回复' : '回复' }}</span
+        >
+      </div>
+      <div class="action">
+        <el-dropdown trigger="click" @command="toDelete(item._id)">
+          <span class="icon-wrap">
+            <el-icon :size="12" color="#8a919f"><MoreFilled /></el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </div>
-    <div class="interact" v-if="active">
+    <div class="interact fxe" v-if="active == item._id">
       <el-input
         v-model="intro"
         type="textarea"
@@ -26,15 +42,15 @@
 </template>
 
 <script lang="ts" setup>
-import { getTimer } from '@/utils'
+import { cusConfirm, getTimer } from '@/utils'
 import { ElMessage } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 const intro = ref('')
 const loading = ref()
 const input = ref()
 const props = defineProps<{
-  active: boolean
-  time: string
+  active: string
+  item: CommentRepliyType
 }>()
 const emit = defineEmits<{
   (e: 'onActive', is_act: boolean): void
@@ -54,6 +70,14 @@ const onBlur = (e: MouseEvent) => {
 }
 const onActive = () => {
   emit('onActive', !props.active)
+}
+const toDelete = (id: string) => {
+  cusConfirm('确认删除评论？删除后不可恢复', () => {
+    // store.removeMsg(id, () => {
+    //   ElMessage.success('已删除')
+    //   emit('onFilter', {})
+    // })
+  })
 }
 
 const is_active = computed(() => props.active)
@@ -82,14 +106,17 @@ watch(is_active, async val => {
         color: var(--el-color-primary);
       }
     }
+    .action {
+      .icon-wrap {
+        cursor: pointer;
+      }
+    }
   }
   .interact {
     margin-top: 10px;
     padding: 2px;
     border-radius: 3px;
     box-shadow: 0 0 0 1px var(--el-color-primary) inset;
-    display: flex;
-    align-items: flex-end;
     .el-textarea {
       flex: 1;
       margin-bottom: 6px;

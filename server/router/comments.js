@@ -153,6 +153,16 @@ router.get('/mylist', async (req, res, next) => {
         $limit: per_page,
       },
     ])
+    await MessModel.updateMany(
+      {
+        status: 0,
+        type: 1,
+        user_id,
+      },
+      {
+        status: 1,
+      }
+    )
     res.send({
       meta: {
         total,

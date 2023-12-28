@@ -11,7 +11,7 @@ onMounted(() => {})
     </div> -->
     <div class="box-wrap">
       <h4>本项目已开源</h4>
-      <p>关注下方公众号，回复「实战源码」获取项目源码地址</p>
+      <p>关注下方公众号，回复「实战派源码」获取项目源码地址</p>
       <img src="/wechat.jpeg" style="width: 80%" />
     </div>
     <div class="book-dv box-wrap">

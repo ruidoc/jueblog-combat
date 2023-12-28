@@ -15,7 +15,7 @@ watch(need_login, val => {
   }
 })
 onMounted(() => {
-  let uinfo = localStorage.user_info
+  let uinfo = localStorage.jueblog_user_info
   if (uinfo) {
     ustore.setUserInfo(JSON.parse(uinfo))
   }

@@ -11,6 +11,7 @@ const unless = [
   '/stmsgs/lists',
   /\/arts\/detail*/,
   /\/users\/info*/,
+  /\/comments\/list*/,
 ]
 
 // 生成jwt

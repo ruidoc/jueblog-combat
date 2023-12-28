@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { userStore } from '@/stores'
+import { cusConfirm } from '@/utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -50,13 +51,13 @@ onMounted(() => {
   <section class="setting-page fxt">
     <div class="smenu panel">
       <div
-        :class="['cato-item', { active: curtag == 'user' }]"
+        :class="['cato-item fx', { active: curtag == 'user' }]"
         @click="toChange('user')"
       >
         个人资料
       </div>
       <div
-        :class="['cato-item', { active: curtag == 'drafts' }]"
+        :class="['cato-item fx', { active: curtag == 'drafts' }]"
         @click="toChange('drafts')"
       >
         草稿箱
@@ -122,8 +123,6 @@ onMounted(() => {
       line-height: 24px;
       font-size: 16px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
       border-radius: 4px;
       color: var(--font-color2);
       .el-icon {

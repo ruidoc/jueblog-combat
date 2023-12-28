@@ -3,7 +3,7 @@
     <div class="title">评论</div>
     <div class="comment-create-box fxt">
       <div class="avatar">
-        <el-avatar :src="user_info.avatar">
+        <el-avatar :src="user_info?.avatar">
           <img src="@/assets/avatar.png" />
         </el-avatar>
       </div>
@@ -55,6 +55,7 @@ const toCreate = (data = {}) => {
     return ElMessage.error('评论内容不可为空')
   }
   loading.value = true
+  form_data.created_by = user_info?._id
   store.createComment(form_data, res => {
     loading.value = false
     form.value.content = ''
@@ -73,7 +74,6 @@ onMounted(() => {
     type: 'source',
     content: '',
     target_user: props.user_id,
-    created_by: user_info._id,
   }
   getComments()
 })

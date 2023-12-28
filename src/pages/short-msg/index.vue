@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shortmsgStore } from '@/stores'
+import { messageStore, shortmsgStore, userStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NavComp from './nav.vue'
@@ -7,6 +7,7 @@ import ShortMsgs from './lists.vue'
 import Other from '../home/other.vue'
 import { ElMessage } from 'element-plus'
 const store = shortmsgStore()
+const ustore = userStore()
 const router = useRouter()
 const route = useRoute()
 const filter = ref({})
@@ -46,13 +47,16 @@ onMounted(() => {
   filter.value = route.query
   store.getGroups()
   store.getShortmsgs(filter.value)
+  if (ustore.user_info) {
+    messageStore().getMessage()
+  }
 })
 </script>
 
 <template>
-  <main class="main-box">
+  <main class="main-box fxt">
     <NavComp :groups="store.groups" @on-filter="onFilter" />
-    <div class="main-ctx">
+    <div class="main-ctx fxt">
       <div class="content-wrap">
         <div class="editor-area">
           <el-input
@@ -119,8 +123,6 @@ onMounted(() => {
 
 <style lang="less">
 .main-box {
-  display: flex;
-  align-items: flex-start;
   .content-wrap {
     flex: 1;
     .cus-tabs-header {
@@ -166,8 +168,6 @@ onMounted(() => {
   }
   .main-ctx {
     flex: 1;
-    display: flex;
-    align-items: flex-start;
   }
 }
 </style>

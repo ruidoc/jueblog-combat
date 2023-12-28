@@ -51,6 +51,7 @@ const getMessage = () => {
       follows.value = res.data
     })
   }
+  store.getMessage()
 }
 
 onMounted(() => {
@@ -182,6 +183,7 @@ onMounted(() => {
     height: 46px;
     background: #fff;
     position: fixed;
+    z-index: 1800;
     top: 60px;
     left: 0;
     right: 0;

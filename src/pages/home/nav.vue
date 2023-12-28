@@ -21,7 +21,7 @@ onMounted(() => {
 <template>
   <div class="main-nav">
     <div
-      :class="['cato-item', { active: active == item.key }]"
+      :class="['cato-item fx', { active: active == item.key }]"
       v-for="item in props.category"
       @click="onClick(item)"
     >
@@ -50,8 +50,6 @@ onMounted(() => {
     line-height: 24px;
     font-size: 16px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     border-radius: 4px;
     color: var(--font-color2);
     .el-icon {

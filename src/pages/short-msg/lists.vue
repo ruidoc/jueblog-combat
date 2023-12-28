@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { shortmsgStore, commentStore } from '@/stores'
 import { MoreFilled } from '@element-plus/icons-vue'
-import { getTimer } from '@/utils'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { cusConfirm, getTimer } from '@/utils'
+import { ElMessage } from 'element-plus'
 import Comment from './comment.vue'
 const loading = ref(false)
 const act_id = ref('')
@@ -23,11 +23,7 @@ const emit = defineEmits<{
   (e: 'onFilter', json: Record<string, string>): void
 }>()
 const toDelete = (id: string) => {
-  ElMessageBox.confirm('确认删除沸点？', '操作提醒', {
-    confirmButtonText: '确认',
-    cancelButtonText: '取消',
-    type: 'warning',
-  }).then(() => {
+  cusConfirm('确认删除沸点？', () => {
     store.removeMsg(id, () => {
       ElMessage.success('已删除')
       emit('onFilter', {})
@@ -38,8 +34,8 @@ const getComments = (msg_id: string) => {
   if (act_id.value == msg_id) {
     return (act_id.value = '')
   }
-  act_id.value = msg_id
   cmstore.getComments(msg_id, res => {
+    act_id.value = msg_id
     comments.value = res
   })
 }

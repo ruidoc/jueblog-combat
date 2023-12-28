@@ -1,6 +1,6 @@
 <template>
   <div class="header-menu">
-    <RouterLink to="/">首页</RouterLink>
+    <RouterLink to="/">文章</RouterLink>
     <RouterLink to="/shortmsg">沸点</RouterLink>
   </div>
 </template>

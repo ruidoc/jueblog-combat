@@ -23,7 +23,7 @@ onMounted(() => {
   <div class="main-nav">
     <div v-for="item in props.groups" class="cato-item-wrap">
       <div
-        :class="['cato-item', { active: active == item.key }]"
+        :class="['cato-item fx', { active: active == item.key }]"
         @click="onClick(item)"
       >
         <el-icon :size="18">
@@ -33,7 +33,7 @@ onMounted(() => {
       </div>
       <div v-if="item.children" class="childs-wrap">
         <div
-          :class="['cato-item sub', { active: active == subitem.key }]"
+          :class="['cato-item sub fx', { active: active == subitem.key }]"
           v-for="subitem in item.children"
           @click="onClick(subitem)"
         >
@@ -61,8 +61,6 @@ onMounted(() => {
     line-height: 24px;
     font-size: 16px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     border-radius: 4px;
     color: var(--font-color2);
     .el-icon {

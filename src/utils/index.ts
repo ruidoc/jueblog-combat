@@ -1,3 +1,5 @@
+import { ElMessageBox } from 'element-plus'
+
 export const getTimer = (stringTime: string) => {
   let minute = 1000 * 60
   let hour = minute * 60
@@ -44,4 +46,17 @@ export const debounce = (fn: Function, delay = 1600) => {
       fn(...args)
     }, delay)
   }
+}
+
+export const cusConfirm = (title: string, fn: Function) => {
+  ElMessageBox.confirm(title, '操作提醒', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+    customStyle: { padding: '14px 0 20px' },
+    showClose: false,
+    center: true,
+  }).then(() => {
+    fn()
+  })
 }

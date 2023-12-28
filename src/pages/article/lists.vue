@@ -17,7 +17,7 @@ const toDetail = (item: any) => {
       v-for="item in props.articles"
       @click="toDetail(item)"
     >
-      <div class="art-meta">
+      <div class="art-meta fx">
         {{ item.user.username }} <i /> {{ getTimer(item.created_at) }}<i />{{
           store.getCateLabel(item.category)
         }}
@@ -64,8 +64,6 @@ const toDetail = (item: any) => {
       color: var(--font-color3);
       font-size: 13px;
       line-height: 22px;
-      display: flex;
-      align-items: center;
       i {
         display: inline-flex;
         height: 12px;

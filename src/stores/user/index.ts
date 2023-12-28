@@ -13,7 +13,7 @@ const userStore = defineStore('user', {
     },
     setUserInfo(info: UserType) {
       this.user_info = info
-      localStorage.setItem('user_info', JSON.stringify(info))
+      localStorage.setItem('jueblog_user_info', JSON.stringify(info))
     },
     async login(form: any, fun: (bool: boolean) => void) {
       try {

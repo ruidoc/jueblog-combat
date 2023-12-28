@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { articleStore } from '@/stores'
+import { articleStore, messageStore, userStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NavComp from './nav.vue'
 import Articles from './articles.vue'
 import Others from './other.vue'
 const store = articleStore()
+const ustore = userStore()
 const router = useRouter()
 const route = useRoute()
 const filter = ref({})
@@ -23,13 +24,16 @@ onMounted(() => {
   filter.value = route.query
   store.getCategory()
   store.getArticles(filter.value)
+  if (ustore.user_info) {
+    messageStore().getMessage()
+  }
 })
 </script>
 
 <template>
-  <main class="main-box">
+  <main class="main-box fxt">
     <NavComp :category="store.categories" @on-filter="onFilter" />
-    <div class="main-ctx">
+    <div class="main-ctx fxt">
       <Articles
         :articles="store.articles"
         :loading="store.loading"
@@ -42,12 +46,8 @@ onMounted(() => {
 
 <style lang="less">
 .main-box {
-  display: flex;
-  align-items: flex-start;
   .main-ctx {
     flex: 1;
-    display: flex;
-    align-items: flex-start;
   }
 }
 </style>

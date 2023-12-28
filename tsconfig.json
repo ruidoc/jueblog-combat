@@ -9,6 +9,7 @@
     "strictNullChecks": false,
     "jsx": "preserve",
     "ignoreDeprecations": "5.0",
+    "checkJs": true,
     "baseUrl": ".",
     "lib": [
       "ES2017"
