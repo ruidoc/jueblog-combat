@@ -6,11 +6,12 @@ import NavComp from './nav.vue'
 import ShortMsgs from './lists.vue'
 import Other from '../home/other.vue'
 import { ElMessage } from 'element-plus'
+import { listener } from '@/utils'
 const store = shortmsgStore()
 const ustore = userStore()
 const router = useRouter()
 const route = useRoute()
-const filter = ref({})
+const filter = ref<any>({})
 const loading = ref(false)
 const form = ref({
   content: '',
@@ -43,6 +44,16 @@ const toCreate = () => {
     }
   })
 }
+const onScrollEnd = () => {
+  let { page, per_page, total } = store.meta
+  if (page * per_page >= total) {
+    return false
+  }
+  if (loading.value) return
+  loading.value == true
+  filter.value.page = page + 1
+  store.getShortmsgs(filter.value)
+}
 onMounted(() => {
   filter.value = route.query
   store.getGroups()
@@ -50,6 +61,7 @@ onMounted(() => {
   if (ustore.user_info) {
     messageStore().getMessage()
   }
+  listener.apply('scroll-end', onScrollEnd)
 })
 </script>
 

@@ -9,6 +9,7 @@
     "strictNullChecks": false,
     "jsx": "preserve",
     "ignoreDeprecations": "5.0",
+    "isolatedModules": false,
     "checkJs": true,
     "baseUrl": ".",
     "lib": [

@@ -5,11 +5,13 @@ import { useRoute, useRouter } from 'vue-router'
 import NavComp from './nav.vue'
 import Articles from './articles.vue'
 import Others from './other.vue'
+import { listener } from '@/utils'
 const store = articleStore()
 const ustore = userStore()
 const router = useRouter()
 const route = useRoute()
-const filter = ref({})
+const filter = ref<any>({})
+const loading = ref(false)
 const onFilter = (json: Record<string, string>) => {
   filter.value = {
     ...filter.value,
@@ -20,6 +22,16 @@ const onFilter = (json: Record<string, string>) => {
   })
   store.getArticles(filter.value)
 }
+const onScrollEnd = () => {
+  let { page, per_page, total } = store.meta
+  if (page * per_page >= total) {
+    return false
+  }
+  if (loading.value) return
+  loading.value == true
+  filter.value.page = page + 1
+  store.getArticles(filter.value)
+}
 onMounted(() => {
   filter.value = route.query
   store.getCategory()
@@ -27,6 +39,7 @@ onMounted(() => {
   if (ustore.user_info) {
     messageStore().getMessage()
   }
+  listener.apply('scroll-end', onScrollEnd)
 })
 </script>
 

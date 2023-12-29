@@ -310,7 +310,7 @@
 
 "@bytemd/vue-next@^1.21.0":
   version "1.21.0"
-  resolved "https://repo.huaweicloud.com/repository/npm/@bytemd/vue-next/-/vue-next-1.21.0.tgz#04ba75c8d9580cb6a145a791e155771737f6d155"
+  resolved "https://registry.npmmirror.com/@bytemd/vue-next/-/vue-next-1.21.0.tgz#04ba75c8d9580cb6a145a791e155771737f6d155"
   integrity sha512-0T60Pr6gJDxX7B44zli7kelGvLXogmskJL8H7iSUH1cRf1EJOmx+WbR/kS8A2we+BoqlcLmzAuCdvE+eeffW5w==
   dependencies:
     bytemd "1.21.0"

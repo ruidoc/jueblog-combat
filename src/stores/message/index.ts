@@ -21,33 +21,33 @@ const mesgStore = defineStore('message', {
         console.log(error)
       }
     },
-    async getComment(fun: (res: any) => void) {
+    async getComment(fun: (res: any) => void, page = 1) {
       try {
-        let res: any = await request.get('/comments/mylist')
-        if (res) {
-          fun(res)
-        }
+        let params = { page }
+        let res = await request.get('/comments/mylist', { params })
+        fun(res)
       } catch (error) {
+        fun(null)
         console.log(error)
       }
     },
-    async getPraises(fun: (res: any) => void) {
+    async getPraises(fun: (res: any) => void, page = 1) {
       try {
-        let res: any = await request.get('/praises/mylist')
-        if (res) {
-          fun(res)
-        }
+        let params = { page }
+        let res = await request.get('/praises/mylist', { params })
+        fun(res)
       } catch (error) {
+        fun(null)
         console.log(error)
       }
     },
-    async getFollows(fun: (res: any) => void) {
+    async getFollows(fun: (res: any) => void, page = 1) {
       try {
-        let res: any = await request.get('/follows/lists')
-        if (res) {
-          fun(res)
-        }
+        let params = { page }
+        let res = await request.get('/follows/lists', { params })
+        fun(res)
       } catch (error) {
+        fun(null)
         console.log(error)
       }
     },

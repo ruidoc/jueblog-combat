@@ -1,4 +1,5 @@
 import { ElMessageBox } from 'element-plus'
+import { Listener } from './listener'
 
 export const getTimer = (stringTime: string) => {
   let minute = 1000 * 60
@@ -60,3 +61,19 @@ export const cusConfirm = (title: string, fn: Function) => {
     fn()
   })
 }
+
+export const isToBottom = (fn: () => void) => {
+  let position = window.pageYOffset || document.documentElement.scrollTop
+  let docHeight = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.clientHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight
+  )
+  if (position + window.innerHeight >= docHeight - 1) {
+    fn()
+  }
+}
+
+export const listener = new Listener()

@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { articleStore, userStore } from '@/stores'
 import { useRoute } from 'vue-router'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
 import MkRender from '@/components/mk-render/index.vue'
 import Comment from './comment.vue'
+import { debounce } from '@/utils'
 const route = useRoute()
 const store = articleStore()
 const ustore = userStore()
 const article = ref<ArticleType | null>(null)
 const directs = ref([])
+const actd = ref('')
 const is_follow = ref(false)
 
 const toEdit = () => {
@@ -42,9 +44,26 @@ const toPraiseOrStart = (type: 1 | 2) => {
   })
 }
 const scrollView = (name: string, idclass = true) => {
-  let t = idclass ? '.' : '#'
-  let dom = document.querySelector(t + name)
+  name = name.replace(/\./g, '-').replace(/ /g, '')
+  let dom: Element
+  if (idclass) {
+    dom = document.querySelector(`.${name}`)
+  } else {
+    dom = document.getElementById(name)
+  }
   dom.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+const onScroll = (e: Event) => {
+  let res = directs.value.find(d => d.top > window.scrollY)
+  if (res) {
+    actd.value = res.key
+  } else {
+    actd.value = directs.value[0]
+      ? directs.value[directs.value.length - 1].key
+      : ''
+  }
+  // console.log('滚动：', res)
 }
 
 onMounted(() => {
@@ -62,14 +81,35 @@ onMounted(() => {
     if (dirs.every(d => d.includes('####'))) {
       index++
     }
-    let rdirs = dirs.map(d => d.slice(index))
-    directs.value = rdirs
+    let rdirs: any[] = []
+    nextTick(() => {
+      rdirs = dirs.map(d => ({
+        key: d.replace(/#{1,}/g, '').trim(),
+        tab: d.search(/#(?!#)/) - index,
+        top: document
+          .getElementById(
+            `${d
+              .replace(/#{1,}/g, '')
+              .replace(/ /g, '')
+              .replace(/\./g, '-')
+              .trim()}`
+          )
+          ?.getBoundingClientRect().top,
+      }))
+      console.log('目录：', rdirs)
+      actd.value = rdirs[0]?.key || ''
+      directs.value = rdirs
+    })
     if (ustore.user_info) {
       ustore.checkFollow(data.created_by, res => {
         is_follow.value = res
       })
     }
   })
+  window.addEventListener('scroll', onScroll)
+  return () => {
+    window.removeEventListener('scroll', onScroll)
+  }
 })
 </script>
 
@@ -168,8 +208,11 @@ onMounted(() => {
           <div class="title">目录</div>
           <ul>
             <template v-for="item in directs" :key="item">
-              <li @click="(e: any) => scrollView(e.target.innerText, false)">
-                {{ item.slice(item.search(/#(?!#)/) + 1).trim() }}
+              <li
+                :class="{ active: actd == item.key }"
+                @click="scrollView(item.key, false)"
+              >
+                {{ item.key }}
               </li>
             </template>
           </ul>
@@ -337,11 +380,17 @@ onMounted(() => {
               width: 3px;
               border-radius: 2px;
             }
-            &:hover {
+            &.active {
               color: var(--el-color-primary);
               &::after {
                 background: var(--el-color-primary);
               }
+            }
+            &:hover {
+              color: var(--el-color-primary);
+              // &::after {
+              //   background: var(--el-color-primary);
+              // }
             }
           }
         }

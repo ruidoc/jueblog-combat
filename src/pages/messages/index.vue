@@ -2,16 +2,22 @@
 import { messageStore, userStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getTimer } from '@/utils'
+import { getTimer, isToBottom, listener } from '@/utils'
 const route = useRoute()
 const router = useRouter()
 const store = messageStore()
 const { toggleFollow } = userStore()
 
 const type = ref('1')
+const loading = ref(false)
 const comments = ref([])
 const praises = ref([])
 const follows = ref([])
+const meta = ref({
+  page: 1,
+  per_page: 10,
+  total: 0,
+})
 const onChange = (e: MouseEvent) => {
   let dom: any = e.target
   if (dom.tagName != 'LI') return
@@ -23,6 +29,7 @@ const onChange = (e: MouseEvent) => {
   } else {
     router.push('/messages')
   }
+  meta.value.page = 1
   getMessage()
 }
 const toLink = (id: string, tar: 1 | 2) => {
@@ -36,22 +43,42 @@ const toFollow = (row: any) => {
   })
 }
 const getMessage = () => {
+  let { page } = meta.value
   if (type.value == '1') {
     store.getComment(res => {
-      comments.value = res.data
-    })
+      loading.value = false
+      if (res == null) return
+      comments.value = page == 1 ? res.data : [...comments.value, ...res.data]
+      meta.value = res.meta
+    }, page)
   }
   if (type.value == '2') {
     store.getPraises(res => {
-      praises.value = res.data
-    })
+      loading.value = false
+      if (res == null) return
+      praises.value = page == 1 ? res.data : [...praises.value, ...res.data]
+      meta.value = res.meta
+    }, page)
   }
   if (type.value == '3') {
     store.getFollows(res => {
-      follows.value = res.data
-    })
+      loading.value = false
+      if (res == null) return
+      follows.value = page == 1 ? res.data : [...follows.value, ...res.data]
+      meta.value = res.meta
+    }, page)
   }
   store.getMessage()
+}
+const onScrollEnd = () => {
+  let { page, per_page, total } = meta.value
+  if (page * per_page >= total) {
+    return false
+  }
+  if (loading.value) return
+  loading.value == true
+  meta.value.page++
+  getMessage()
 }
 
 onMounted(() => {
@@ -62,6 +89,7 @@ onMounted(() => {
     type.value = rtype
   }
   getMessage()
+  listener.apply('scroll-end', onScrollEnd)
 })
 </script>
 

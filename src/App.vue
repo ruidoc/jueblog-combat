@@ -4,6 +4,7 @@ import CusHeader from '@/components/cus-header/index.vue'
 import CusLogin from '@/components/cus-login/index.vue'
 import { RouterView, useRoute } from 'vue-router'
 import { userStore } from '@/stores'
+import { isToBottom, listener } from './utils'
 
 const route = useRoute()
 const ustore = userStore()
@@ -14,11 +15,18 @@ watch(need_login, val => {
     L.value.visible = true
   }
 })
+const onScroll = () => {
+  isToBottom(() => {
+    console.log('滚动到底部')
+    listener.emit('scroll-end')
+  })
+}
 onMounted(() => {
   let uinfo = localStorage.jueblog_user_info
   if (uinfo) {
     ustore.setUserInfo(JSON.parse(uinfo))
   }
+  window.addEventListener('scroll', onScroll)
 })
 </script>
 
