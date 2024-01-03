@@ -23,10 +23,14 @@ const stmsgStore = defineStore('short-msg', {
         if (params.group == 'all') {
           params.group = null
         }
-        this.loading = true
+        let page = +params.page || 1
+        if (page == 1) {
+          this.loading = true
+        }
         let res: any = await request.get('/stmsgs/lists', { params })
         if (res && !fun) {
-          this.shortmsgs = res.data
+          this.shortmsgs =
+            page == 1 ? res.data : this.shortmsgs.concat(res.data)
           this.meta = res.meta
         }
         this.loading = false

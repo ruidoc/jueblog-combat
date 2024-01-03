@@ -33,5 +33,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(port, () => {
-  console.log(`函数启动并监听 ${port} 端口`)
+  console.log(`API 启动，监听 ${port} 端口`)
 })
