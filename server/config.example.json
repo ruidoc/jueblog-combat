@@ -1,0 +1,5 @@
+{
+  "mongo_url": "mongodb://xxxx",
+  "mongo_username": "xxx",
+  "mongo_password": "xxx"
+}

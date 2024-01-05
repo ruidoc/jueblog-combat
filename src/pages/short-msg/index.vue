@@ -23,6 +23,9 @@ const onFilter = (json: Record<string, string>) => {
     ...filter.value,
     ...json,
   }
+  if (filter.value.page) {
+    delete filter.value.page
+  }
   router.push({
     query: filter.value,
   })

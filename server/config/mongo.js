@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
+const config = require('../config.json')
 
 const connect = (req, res, next) => {
   mongoose
-    .connect('mongodb://127.0.0.1:27017/juejin_blogs', {
-      user: 'your_username',
-      pass: 'your_password',
+    .connect(config.mongo_url, {
+      user: config.mongo_username,
+      pass: config.mongo_password,
     })
     .then(() => {
       next()

@@ -36,6 +36,11 @@ const routes = [
     name: 'setting',
     component: () => import('@/pages/setting/index.vue'),
   },
+  {
+    path: '/mobile',
+    name: 'mobile',
+    component: () => import('@/pages/other/mobile.vue'),
+  },
 ]
 
 export default routes

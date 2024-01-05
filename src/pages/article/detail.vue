@@ -70,7 +70,7 @@ onMounted(() => {
   let { id } = route.params
   store.getArtDetail(id as string, data => {
     article.value = data
-    let dirs = data.content.match(/#{1,}.*/g)
+    let dirs = data.content.match(/#{1,}.*/g) || []
     let index = 0
     if (dirs.every(d => d.includes('##'))) {
       index++

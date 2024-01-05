@@ -78,8 +78,24 @@ $ pm2 logs 1
 ...
 ```
 
-## 配置数据库
+## 配置数据库和请求地址
 
-在 server/config 目录下找到 `mongo.example.js` 文件，修改文件中的 MongoDB 连接地址和用户名密码，并改为 `mongo.js` 后即可生效。
+在 server 目录下找到 `config.example.json` 文件，修改文件中的三个属性：
+
+`mongo_url`：MongoDB 连接地址。
+`mongo_username`：MongoDB 用户名。
+`mongo_password`：MongoDB 密码。
+
+修改后将文件重命名为 `config.json`，配置即可生效。
 
 没有这一步操作，项目启动无法连接数据库。
+
+前端请求的 API 接口根 URL，需要通过环境变量来配置。在根目录下的找到 `.env.local.example` 文件，这里定义了开发环境下的 API 地址：
+
+```
+VITE_API_BASEURL=http://localhost:9000
+```
+
+同样将该文件重命名为 `.env.local`，配置即可生效。
+
+当 API 部署到线上后，只需要将这里的 `http://localhost:9000` 更换为线上地址即可。

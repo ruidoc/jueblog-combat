@@ -29,8 +29,13 @@ router.post('/toggle', async (req, res, next) => {
         user_id: target_user,
       })
     }
+    let add_val = action == 'create' ? 1 : -1
+    let inc_vals = { jue_power: add_val }
+    if (!body.type || body.type == 1) {
+      inc_vals.good_num = add_val
+    }
     await UsersModel.findByIdAndUpdate(target_user, {
-      $inc: { jue_power: action == 'create' ? 1 : -1 },
+      $inc: inc_vals,
     })
     res.send({
       action,

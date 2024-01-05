@@ -3,8 +3,7 @@ import { ElMessage } from 'element-plus'
 import { userStore } from '@/stores'
 
 const instance: AxiosInstance = axios.create({
-  // baseURL: 'https://blog-fun-blog-server-syqqqghajr.cn-hangzhou.fcapp.run',
-  baseURL: 'http://localhost:9000',
+  baseURL: import.meta.env.VITE_API_BASEURL,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
