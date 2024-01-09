@@ -15,9 +15,9 @@ onMounted(() => {})
       <img src="/wechat.jpeg" style="width: 80%" />
     </div>
     <div class="book-dv box-wrap">
-      <h4>购买纸质书</h4>
-      <p>零基础全栈开发本项目？基础+实战详细介绍全在这本书里，点击购买</p>
-      <a class="link" href="#">
+      <h4>5折购买纸质书</h4>
+      <p>零基础全栈开发本项目？基础+实战详细介绍全在下方书中，点击去购买</p>
+      <a class="link" target="_blank" href="https://item.jd.com/14337084.html">
         <img src="/book.png" />
       </a>
     </div>

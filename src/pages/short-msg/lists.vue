@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { shortmsgStore, commentStore } from '@/stores'
+import { shortmsgStore, commentStore, userStore } from '@/stores'
 import { MoreFilled } from '@element-plus/icons-vue'
 import { cusConfirm, getTimer } from '@/utils'
 import { ElMessage } from 'element-plus'
@@ -9,6 +9,7 @@ const loading = ref(false)
 const act_id = ref('')
 const store = shortmsgStore()
 const cmstore = commentStore()
+const ustore = userStore()
 const form = ref<Partial<CommentType>>({
   content: '',
 })
@@ -68,7 +69,11 @@ const toCreate = (data = {}) => {
             >
           </div>
           <div class="action">
-            <el-dropdown trigger="click" @command="toDelete(item._id)">
+            <el-dropdown
+              v-if="item.user?._id == ustore.user_info?._id"
+              trigger="click"
+              @command="toDelete(item._id)"
+            >
               <span class="icon-wrap">
                 <el-icon><MoreFilled /></el-icon>
               </span>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { userStore } from '@/stores'
-import { cusConfirm } from '@/utils'
+import { compressImg } from '@/utils'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -10,6 +10,9 @@ const router = useRouter()
 const curtag = ref('')
 const loading = ref(false)
 const form = ref<UserType>()
+const headers = {
+  Authorization: `Bearer ${localStorage.jueblog_token}`,
+}
 const toChange = (tag: string) => {
   curtag.value = tag
   router.push({
@@ -37,6 +40,16 @@ const toUpdate = () => {
     }
   )
 }
+// 上传成功
+const uploadSuccess = (file: any) => {
+  if (file.code == 200) {
+    form.value.avatar = 'https://static.ruidoc.cn' + file.data.path
+    ElMessage.success('上传成功')
+  } else {
+    ElMessage.success('上传失败')
+  }
+}
+
 onMounted(() => {
   let tag = route.params.tag as string
   if (!store.user_info) {
@@ -94,14 +107,22 @@ onMounted(() => {
       </div>
       <div v-if="curtag == 'user'" class="avatar-wrap">
         <div class="imgbox">
-          <el-avatar
-            :size="90"
-            :src="form.avatar"
-            @click="setAvatar(form.avatar)"
-          >
+          <el-avatar :size="90" :src="form.avatar">
             <img src="@/assets/avatar.png" />
           </el-avatar>
-          <div>我的头像</div>
+          <div style="margin-bottom: 12px">我的头像</div>
+          <el-upload
+            action="https://api.ruidoc.cn/others/upload"
+            class="avatar-uploader"
+            name="image"
+            :headers="headers"
+            :show-file-list="false"
+            :multiple="false"
+            :on-success="uploadSuccess"
+            :before-upload="compressImg"
+          >
+            <el-button class="actmo" plain>上传</el-button>
+          </el-upload>
         </div>
       </div>
     </div>

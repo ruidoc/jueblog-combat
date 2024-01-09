@@ -5,8 +5,8 @@
       :key="comment._id"
       class="par-comment fxt"
     >
-      <el-avatar :size="36">
-        <img src="https://www.ruims.top/static/logo-round.png" />
+      <el-avatar :size="36" :src="comment.created_by?.avatar">
+        <img src="@/assets/avatar.png" />
       </el-avatar>
       <div class="ctx-wrap">
         <div class="uinfo fx">
@@ -25,8 +25,8 @@
           :key="item._id"
           class="repliy-item fxt"
         >
-          <el-avatar :size="28">
-            <img src="https://www.ruims.top/static/logo-round.png" />
+          <el-avatar :size="28" :src="item.created_by.avatar">
+            <img src="@/assets/avatar.png" />
           </el-avatar>
           <div class="ctx-wrap">
             <div class="uinfo fx">

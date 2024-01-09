@@ -143,7 +143,9 @@ onMounted(() => {
         <div class="content" v-if="article">
           <h1 className="art-title">{{ article.title }}</h1>
           <div className="options fx">
-            <span className="uname hover">{{ article.user.username }}</span>
+            <span className="uname hover" @click="toUser">{{
+              article.user.username
+            }}</span>
             <span className="time">
               {{ dayjs(article.created_at).format('YYYY-MM-DD HH:mm') }}
             </span>

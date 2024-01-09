@@ -60,8 +60,15 @@ router.post('/login', async (req, res, next) => {
     }
     let { phone, password } = body
     password = encrypt(password)
-    let result = await UsersModel.findOne({ phone, password })
-    if (result) {
+    let result = await UsersModel.findOne({ phone })
+    if (!result) {
+      return res.send({
+        code: 20002,
+        message: '用户不存在',
+      })
+    }
+    let finded = result.password == password
+    if (finded) {
       let { _id, username } = result
       let token = genoJwt({ _id, username })
       res.send({

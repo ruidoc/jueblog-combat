@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { articleStore } from '@/stores'
-import { getTimer } from '@/utils'
+import { articleStore, userStore } from '@/stores'
+import { cusConfirm, getTimer } from '@/utils'
+import { ElMessage } from 'element-plus'
 const store = articleStore()
+const ustore = userStore()
 const props = defineProps<{
-  articles: any[]
+  articles: ArticleType[]
 }>()
-const toDetail = (item: any) => {
+const toDetail = (item: ArticleType) => {
   window.open('/article/' + item._id)
+}
+const toDelete = (id: string) => {
+  cusConfirm('确认删除文章？删除后不可恢复', () => {
+    store.deleteArt(id, () => {
+      ElMessage.success('已删除')
+    })
+  })
 }
 </script>
 
@@ -39,6 +48,20 @@ const toDetail = (item: any) => {
               <span class="iconfont icon-wenda"></span>
               {{ item.comments || '评论' }}
             </span>
+            <el-dropdown
+              v-if="item.user?._id == ustore.user_info?._id"
+              trigger="hover"
+              @command="toDelete(item._id)"
+            >
+              <span class="icon-wrap">
+                <el-icon :size="14"><MoreFilled /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>删除</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
         </div>
         <div class="img-wrap"></div>
@@ -105,6 +128,14 @@ const toDetail = (item: any) => {
             .iconfont {
               font-size: 15px;
             }
+          }
+        }
+        .icon-wrap {
+          color: #8a919f;
+          outline: none !important;
+          margin-left: 10px;
+          &:hover {
+            color: var(--el-color-primary);
           }
         }
       }

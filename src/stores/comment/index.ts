@@ -3,6 +3,9 @@ import { ElMessage } from 'element-plus'
 import request from '@/request'
 
 const commentStore = defineStore('comment', {
+  state: () => ({
+    action_load: 1,
+  }),
   actions: {
     // 评论列表
     async getComments(id: string, fun: (data: any) => void) {
@@ -31,6 +34,10 @@ const commentStore = defineStore('comment', {
         console.log(error)
         fun(false)
       }
+    },
+    // 刷新请求
+    reload() {
+      this.action_load++
     },
   },
 })

@@ -1,5 +1,6 @@
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Listener } from './listener'
+import { compressAccurately } from 'image-conversion'
 
 export const getTimer = (stringTime: string) => {
   let minute = 1000 * 60
@@ -77,3 +78,23 @@ export const isToBottom = (fn: () => void) => {
 }
 
 export const listener = new Listener()
+
+export const compressImg = (file: File) => {
+  const typeList = ['image/jpeg', 'image/png', 'image/gif']
+  const isValid = typeList.includes(file.type)
+  const need_press = file.size / 1024 > 500
+  if (!isValid) {
+    ElMessage.error('图片格式只能是 JPG/PNG/GIF!')
+  }
+  return new Promise((resolve, reject) => {
+    if (!isValid) {
+      return reject()
+    }
+    if (!need_press) {
+      return resolve(file)
+    }
+    compressAccurately(file, 500).then(res => {
+      resolve(res)
+    })
+  })
+}

@@ -10,7 +10,11 @@
         >
       </div>
       <div class="action">
-        <el-dropdown trigger="click" @command="toDelete(item._id)">
+        <el-dropdown
+          v-if="item.created_by?._id == ustore.user_info?._id"
+          trigger="click"
+          @command="toDelete(item._id)"
+        >
           <span class="icon-wrap">
             <el-icon :size="12" color="#8a919f"><MoreFilled /></el-icon>
           </span>
@@ -42,12 +46,15 @@
 </template>
 
 <script lang="ts" setup>
+import { commentStore, userStore } from '@/stores'
 import { cusConfirm, getTimer } from '@/utils'
 import { ElMessage } from 'element-plus'
 import { computed, nextTick, ref, watch } from 'vue'
 const intro = ref('')
 const loading = ref()
 const input = ref()
+const store = commentStore()
+const ustore = userStore()
 const props = defineProps<{
   active: string
   item: CommentRepliyType
@@ -73,10 +80,10 @@ const onActive = () => {
 }
 const toDelete = (id: string) => {
   cusConfirm('确认删除评论？删除后不可恢复', () => {
-    // store.removeMsg(id, () => {
-    //   ElMessage.success('已删除')
-    //   emit('onFilter', {})
-    // })
+    store.removeComment(id, () => {
+      ElMessage.success('已删除')
+      store.reload()
+    })
   })
 }
 

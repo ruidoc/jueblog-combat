@@ -15,7 +15,7 @@ instance.interceptors.request.use(request => {
   if (request.data instanceof FormData) {
     request.headers['Content-Type'] = 'multipart/form-data'
   }
-  request.headers.Authorization = 'Bearer ' + (localStorage.token || '')
+  request.headers.Authorization = 'Bearer ' + (localStorage.jueblog_token || '')
   return request
 })
 

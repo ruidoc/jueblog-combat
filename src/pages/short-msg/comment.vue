@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { commentStore, userStore } from '@/stores'
 import { ElMessage } from 'element-plus'
 import CusComments from '@/components/cus-comment/index.vue'
@@ -74,6 +74,10 @@ const getComments = () => {
     comments.value = res
   })
 }
+const action_load = computed(() => store.action_load)
+watch(action_load, () => {
+  getComments()
+})
 onMounted(() => {
   form.value = {
     source_id: props.msg_id,

@@ -8,6 +8,7 @@ const commsRouter = require('../router/comments.js')
 const stmsgsRouter = require('../router/shortmsgs.js')
 const messRouter = require('../router/messages.js')
 const follRouter = require('../router/follows.js')
+const otherRouter = require('../router/others.js')
 
 const router = app => {
   app.use('/users', userRouter)
@@ -17,6 +18,7 @@ const router = app => {
   app.use('/stmsgs', stmsgsRouter)
   app.use('/messages', messRouter)
   app.use('/follows', follRouter)
+  app.use('/others', otherRouter)
 }
 
 module.exports = router

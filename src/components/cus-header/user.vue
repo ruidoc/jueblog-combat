@@ -68,8 +68,8 @@ const toRoute = (path: string) => {
 }
 const toLogout = () => {
   cusConfirm('确认退出登录？', () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user_info')
+    localStorage.removeItem('jueblog_token')
+    localStorage.removeItem('jueblog_user_info')
     location.href = '/'
   })
 }

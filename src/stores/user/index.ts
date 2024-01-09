@@ -15,19 +15,28 @@ const userStore = defineStore('user', {
       this.user_info = info
       localStorage.setItem('jueblog_user_info', JSON.stringify(info))
     },
-    async login(form: any, fun: (bool: boolean) => void) {
+    async login(form: any, fun: (code: number) => void) {
       try {
         let res: any = await request.post('/users/login', form)
-        if (res.code != 200) {
-          fun(false)
-          return ElMessage.error(res.message)
+        if (res.code == 20001) {
+          ElMessage.error(res.message)
         }
-        localStorage.setItem('token', res.token)
-        this.getUser('self')
-        fun(true)
-        // debugger
+        if (res.code == 200) {
+          localStorage.setItem('jueblog_token', res.token)
+          this.getUser('self')
+        }
+        fun(res.code)
       } catch (error) {
-        fun(false)
+        fun(500)
+        console.log(error)
+      }
+    },
+    async register(form: Partial<UserType>, fun: (code: number) => void) {
+      try {
+        await request.post('/users/create', form)
+        this.login(form, fun)
+      } catch (error) {
+        fun(500)
         console.log(error)
       }
     },

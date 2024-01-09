@@ -89,7 +89,7 @@ router.put('/update/:id', async (req, res, next) => {
 // 文章列表
 router.get('/lists', async (req, res, next) => {
   let user_id = req.auth ? req.auth._id : null
-  let { category, orderby, per_page, page } = req.query
+  let { category, created_by, orderby, per_page, page } = req.query
   try {
     per_page = +per_page || 10
     page = +page || 1
@@ -103,6 +103,9 @@ router.get('/lists', async (req, res, next) => {
     }
     if (category) {
       where.category = category
+    }
+    if (created_by) {
+      where.created_by = ObjectId(created_by)
     }
     let total = await ArtsModel.count(where).skip(skip)
     let result = await ArtsModel.aggregate([

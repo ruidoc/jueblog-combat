@@ -34,7 +34,7 @@
 
 开发本项目需要的技术基础+实战详细介绍全在这本书里，如有需要请点击购买。
 
-<img src="public/book.png" width="50%"/>
+<a target="__blank" href="https://item.jd.com/14337084.html"><img src="public/book.png" width="50%"/></a>
 
 关注下方公众号回复“实战群”，加入读者服务群，我会为大家解答书中和本项目的技术疑问。
 
@@ -82,9 +82,9 @@ $ pm2 logs 1
 
 在 server 目录下找到 `config.example.json` 文件，修改文件中的三个属性：
 
-`mongo_url`：MongoDB 连接地址。
-`mongo_username`：MongoDB 用户名。
-`mongo_password`：MongoDB 密码。
+- `mongo_url`：MongoDB 连接地址。
+- `mongo_username`：MongoDB 用户名。
+- `mongo_password`：MongoDB 密码。
 
 修改后将文件重命名为 `config.json`，配置即可生效。
 
@@ -98,4 +98,4 @@ VITE_API_BASEURL=http://localhost:9000
 
 同样将该文件重命名为 `.env.local`，配置即可生效。
 
-当 API 部署到线上后，只需要将这里的 `http://localhost:9000` 更换为线上地址即可。
+当 API 部署到线上后，需要将这里的 `http://localhost:9000` 更换为线上地址。

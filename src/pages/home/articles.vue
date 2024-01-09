@@ -6,7 +6,7 @@ import Articles from '../article/lists.vue'
 const route = useRoute()
 const orderby = ref('hot')
 const props = defineProps<{
-  articles: any[]
+  articles: ArticleType[]
   loading: boolean
 }>()
 const emit = defineEmits<{

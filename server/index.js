@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   // console.error(err.stack);
-  let err400 = ['ValidationError', 'CastError', 'BSONError']
+  let err400 = ['ValidationError', 'CastError', 'BSONError', 'MulterError']
   let code = err400.includes(err.name) ? 400 : err.status || 500
   if (err.name == 'BSONError') {
     err.message = 'ID错误'
