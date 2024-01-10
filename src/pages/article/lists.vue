@@ -13,6 +13,10 @@ const toDetail = (item: ArticleType) => {
 const toDelete = (id: string) => {
   cusConfirm('确认删除文章？删除后不可恢复', () => {
     store.deleteArt(id, () => {
+      let index = props.articles.findIndex(r => r._id == id)
+      if (index >= 0) {
+        props.articles.splice(index, 1)
+      }
       ElMessage.success('已删除')
     })
   })

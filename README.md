@@ -32,13 +32,12 @@
 
 ## 购买纸质书
 
-开发本项目需要的技术基础+实战详细介绍全在这本书里，如有需要请点击购买。
+开发本项目需要的技术基础+实战详细介绍全在这本书里，如有需要请点击购买；欢迎加作者微信咨询。
 
-<a target="__blank" href="https://item.jd.com/14337084.html"><img src="public/book.png" width="50%"/></a>
-
-关注下方公众号回复“实战群”，加入读者服务群，我会为大家解答书中和本项目的技术疑问。
-
-<img src="public/wechat.jpeg" width="50%"/>
+<div>
+  <a target="_blank" href="https://item.jd.com/14337084.html"><img src="public/book.png" height="400"/></a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="public/wechat.jpeg" height="400"/>
+</div>
 
 ## 启动项目
 

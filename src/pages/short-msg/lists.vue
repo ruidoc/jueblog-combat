@@ -27,6 +27,10 @@ const toDelete = (id: string) => {
   cusConfirm('确认删除沸点？', () => {
     store.removeMsg(id, () => {
       ElMessage.success('已删除')
+      let index = props.shortmsgs.findIndex(r => r._id == id)
+      if (index >= 0) {
+        props.shortmsgs.splice(index, 1)
+      }
       emit('onFilter', {})
     })
   })
@@ -117,7 +121,7 @@ const toCreate = (data = {}) => {
         <Comment :msg_id="item._id" :user_id="item.user._id" />
       </div>
     </div>
-    <div style="background: #fff">
+    <div class="bgw">
       <el-empty
         v-if="props.shortmsgs.length == 0"
         :image-size="60"

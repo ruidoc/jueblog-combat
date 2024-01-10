@@ -149,6 +149,13 @@ onMounted(() => {
             <div class="time">{{ getTimer(item.created_at) }}</div>
           </div>
         </div>
+        <div class="bgw">
+          <el-empty
+            v-if="comments.length == 0"
+            :image-size="60"
+            description="暂无评论消息"
+          ></el-empty>
+        </div>
       </div>
       <div class="msgs-list" v-if="type == '2'">
         <div v-for="item in praises" class="msg-item border fxt">
@@ -177,6 +184,13 @@ onMounted(() => {
             <div class="time">{{ getTimer(item.created_at) }}</div>
           </div>
         </div>
+        <div class="bgw">
+          <el-empty
+            v-if="praises.length == 0"
+            :image-size="60"
+            description="暂无点赞或收藏消息"
+          ></el-empty>
+        </div>
       </div>
       <div class="msgs-list" v-if="type == '3'">
         <div v-for="item in follows" class="msg-item border fxt">
@@ -198,6 +212,13 @@ onMounted(() => {
             @click="toFollow(item)"
             >{{ item.is_follow ? '已关注' : '关注' }}</el-button
           >
+        </div>
+        <div class="bgw">
+          <el-empty
+            v-if="follows.length == 0"
+            :image-size="60"
+            description="暂无关注消息"
+          ></el-empty>
         </div>
       </div>
     </div>

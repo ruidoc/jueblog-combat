@@ -100,11 +100,7 @@ const artiStore = defineStore('article', {
     // 删除文章
     async deleteArt(id: string, fun: () => void) {
       try {
-        // await request.delete('/arts/remove/' + id)
-        let index = this.articles.findIndex(r => r._id == id)
-        if (index >= 0) {
-          this.articles.splice(index, 1)
-        }
+        await request.delete('/arts/remove/' + id)
         fun()
       } catch (error) {
         console.log(error)
