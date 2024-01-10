@@ -80,9 +80,10 @@ export const isToBottom = (fn: () => void) => {
 export const listener = new Listener()
 
 export const compressImg = (file: File) => {
-  const typeList = ['image/jpeg', 'image/png', 'image/gif']
-  const isValid = typeList.includes(file.type)
-  const need_press = file.size / 1024 > 500
+  let maxsize = 300
+  let typeList = ['image/jpeg', 'image/png', 'image/gif']
+  let isValid = typeList.includes(file.type)
+  let need_press = file.size / 1024 > maxsize
   if (!isValid) {
     ElMessage.error('图片格式只能是 JPG/PNG/GIF!')
   }
@@ -93,7 +94,7 @@ export const compressImg = (file: File) => {
     if (!need_press) {
       return resolve(file)
     }
-    compressAccurately(file, 500).then(res => {
+    compressAccurately(file, maxsize).then(res => {
       resolve(res)
     })
   })

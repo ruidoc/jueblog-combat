@@ -35,6 +35,17 @@ const toDelete = (id: string) => {
     })
   })
 }
+const toPraise = (smsg: ShortMsgType) => {
+  let { _id, created_by } = smsg
+  let form = {
+    target_id: _id,
+    target_user: created_by,
+  }
+  store.togglePraise(form, bool => {
+    smsg.is_praise = bool
+    smsg.praises += bool ? 1 : -1
+  })
+}
 const getComments = (msg_id: string) => {
   if (act_id.value == msg_id) {
     return (act_id.value = '')
@@ -110,7 +121,10 @@ const toCreate = (data = {}) => {
           ></span>
           <span>{{ item.comments || '评论' }}</span>
         </span>
-        <span :class="['row fx-c zan', { active: item.is_praise }]">
+        <span
+          :class="['row fx-c zan', { active: item.is_praise }]"
+          @click="toPraise(item)"
+        >
           <span
             :class="['iconfont', item.is_praise ? 'icon-zan2' : 'icon-zan']"
           ></span>
