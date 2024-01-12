@@ -4,12 +4,16 @@ import request from '@/request'
 
 const userStore = defineStore('user', {
   state: () => ({
+    show_tips: false,
     need_login: false,
     user_info: null as UserType | null,
   }),
   actions: {
     showLogin() {
       this.need_login = true
+    },
+    setTips(bool = true) {
+      this.show_tips = bool
     },
     setUserInfo(info: UserType) {
       this.user_info = info

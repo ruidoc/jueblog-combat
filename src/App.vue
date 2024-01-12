@@ -29,6 +29,9 @@ onMounted(() => {
   if (uinfo) {
     ustore.setUserInfo(JSON.parse(uinfo))
   }
+  if (['/', '/shortmsg'].includes(location.pathname)) {
+    ustore.setTips()
+  }
   window.addEventListener('scroll', onScroll)
 })
 </script>
@@ -39,7 +42,7 @@ onMounted(() => {
       <!-- 头部组件区域 -->
       <CusHeader />
     </div>
-    <div id="main-layout">
+    <div id="main-layout" :class="{ 'show-tips': ustore.show_tips }">
       <!-- 路由区域 -->
       <RouterView />
       <CusLogin ref="L" />

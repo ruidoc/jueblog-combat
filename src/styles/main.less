@@ -65,7 +65,6 @@ p {
 #root-layout {
   // overflow: auto;
   #header-layout {
-    height: var(--header-height);
     position: fixed;
     left: 0;
     right: 0;
@@ -78,6 +77,14 @@ p {
     max-width: 1200px;
     margin: var(--header-height) auto 0px auto;
     padding: 20px 0;
+    &.show-tips {
+      margin-top: calc(var(--header-height) + 34px);
+      .main-nav,
+      .main-writer,
+      .other-panel {
+        top: calc(80px + 34px);
+      }
+    }
   }
 }
 
