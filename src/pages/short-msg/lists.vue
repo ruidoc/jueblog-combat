@@ -55,17 +55,6 @@ const getComments = (msg_id: string) => {
     comments.value = res
   })
 }
-const toCreate = (data = {}) => {
-  let form_data = { ...form.value, ...data }
-  if (!form_data.content) {
-    return ElMessage.error('评论内容不可为空')
-  }
-  loading.value = true
-  cmstore.createComment(form_data, res => {
-    loading.value = false
-    form.value.content = ''
-  })
-}
 </script>
 
 <template>
@@ -102,6 +91,18 @@ const toCreate = (data = {}) => {
         </div>
         <div class="content-box">
           <p>{{ item.content }}</p>
+          <div :class="['img-list', { one: item.images.length == 1 }]">
+            <el-image
+              fit="cover"
+              :preview-src-list="item.images"
+              v-for="(img, ind) in item.images"
+              :max-scale="2"
+              :min-scale="0.5"
+              :initial-index="ind"
+              :key="img"
+              :src="img"
+            />
+          </div>
         </div>
       </div>
       <div class="artion-wrap fx">
@@ -191,6 +192,20 @@ const toCreate = (data = {}) => {
       p {
         font-size: 14px;
         color: var(--font-color1);
+      }
+      .img-list {
+        margin-top: 4px;
+        .el-image {
+          width: 120px;
+          height: 120px;
+          margin: 8px 8px 0 0;
+        }
+        &.one {
+          .el-image {
+            width: 200px;
+            height: 200px;
+          }
+        }
       }
     }
     .artion-wrap {

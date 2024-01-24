@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const dayjs = require('dayjs')
 
 const uploadPath = '/home/static/'
+// const uploadPath = ''
 
 const filterJson = (json, keys) => {
   return Object.fromEntries(

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import CusHeader from '@/components/cus-header/index.vue'
 import CusLogin from '@/components/cus-login/index.vue'
 import { RouterView } from 'vue-router'
@@ -8,13 +8,15 @@ import { isToBottom, listener } from './utils'
 
 const ustore = userStore()
 const L = ref(null)
-const need_login = computed(() => ustore.need_login)
 const curpath = location.pathname
-watch(need_login, val => {
-  if (val) {
-    L.value.visible = true
+watch(
+  () => ustore.need_login,
+  val => {
+    if (val) {
+      L.value.visible = true
+    }
   }
-})
+)
 const onScroll = () => {
   isToBottom(() => {
     console.log('滚动到底部')

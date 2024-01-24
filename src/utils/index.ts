@@ -1,6 +1,7 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Listener } from './listener'
 import { compressAccurately } from 'image-conversion'
+import request from '@/request'
 
 export const getTimer = (stringTime: string) => {
   let minute = 1000 * 60
@@ -95,7 +96,25 @@ export const compressImg = (file: File) => {
       return resolve(file)
     }
     compressAccurately(file, maxsize).then(res => {
+      // if (res instanceof Blob) {
+      //   res = new File([res], file.name, { type: file.type })
+      // }
       resolve(res)
     })
+  })
+}
+
+export const uploadImg = async (files: any[]) => {
+  if (files.length == 0) {
+    return null
+  }
+  let form_data = new FormData()
+  for (let i = 0; i < files.length; i++) {
+    let res: any = await compressImg(files[i])
+    form_data.append('images', res, res.name)
+  }
+  // console.log(form_data)
+  return request.post('/others/uploads', form_data, {
+    baseURL: 'https://api.ruidoc.cn',
   })
 }
