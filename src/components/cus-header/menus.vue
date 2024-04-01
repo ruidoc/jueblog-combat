@@ -2,6 +2,7 @@
   <div class="header-menu">
     <RouterLink to="/">文章</RouterLink>
     <RouterLink to="/shortmsg">沸点</RouterLink>
+    <RouterLink to="/books">电子书</RouterLink>
   </div>
 </template>
 

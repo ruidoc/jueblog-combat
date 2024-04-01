@@ -37,6 +37,11 @@ const routes = [
     component: () => import('@/pages/setting/index.vue'),
   },
   {
+    path: '/books',
+    name: 'books',
+    component: () => import('@/pages/book/index.vue'),
+  },
+  {
     path: '/mobile',
     name: 'mobile',
     component: () => import('@/pages/other/mobile.vue'),

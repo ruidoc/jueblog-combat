@@ -55,9 +55,9 @@ onMounted(() => {})
   .book-dv {
     .link {
       display: flex;
-      margin-top: 10px;
+      margin: 13px 0 5px 0px;
       img {
-        width: 90%;
+        width: 84%;
       }
     }
   }
