@@ -31,7 +31,8 @@ instance.interceptors.response.use(
       if (response.status === 401) {
         // ElMessage.error('登录已过期，请重新登录')
         userStore().showLogin()
-        localStorage.removeItem('token')
+        localStorage.removeItem('jueblog_token')
+        localStorage.removeItem('jueblog_user_info')
         // window.location.href = '/login'
       } else {
         ElMessage.error(response.data.message)
